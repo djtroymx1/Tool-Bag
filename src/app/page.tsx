@@ -1,6 +1,7 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { searchParamsCache } from "@/lib/search-params";
 import { CatalogShell } from "@/components/catalog/catalog-shell";
+import { HeroIntro } from "@/components/catalog/hero-intro";
 import { EcosystemExplainer } from "@/components/catalog/ecosystem-explainer";
 import { CatalogErrorState } from "@/components/catalog/catalog-error-state";
 import type { SearchParams } from "nuqs/server";
@@ -67,6 +68,7 @@ export default async function CatalogPage({
 
   return (
     <div className="flex flex-col gap-6">
+      <HeroIntro />
       <EcosystemExplainer />
       <CatalogShell
         initialItems={(filteredItems ?? []) as CatalogItem[]}

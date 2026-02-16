@@ -26,8 +26,12 @@ export function CatalogShell({
     filters.q !== "" ||
     filters.category !== "";
 
+  function clearAllFilters() {
+    setFilters({ priority: "", source: "", q: "", category: "" });
+  }
+
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       {/* Top bar: platform toggle + search */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <PlatformToggle
@@ -53,19 +57,18 @@ export function CatalogShell({
         source={filters.source}
         onPriorityChange={(v) => setFilters({ priority: v })}
         onSourceChange={(v) => setFilters({ source: v })}
-        onClear={() =>
-          setFilters({ priority: "", source: "", q: "", category: "" })
-        }
+        onClear={clearAllFilters}
         hasFilters={hasFilters}
       />
 
       {/* Results count */}
       <div className="text-xs text-zinc-500" role="status" aria-live="polite">
-        {initialItems.length} tool{initialItems.length !== 1 ? "s" : ""}
+        Showing {initialItems.length} of {allItems.length} tool
+        {allItems.length !== 1 ? "s" : ""}
       </div>
 
       {/* Card grid */}
-      <CatalogGrid items={initialItems} />
+      <CatalogGrid items={initialItems} onClearFilters={clearAllFilters} />
     </div>
   );
 }

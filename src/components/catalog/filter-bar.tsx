@@ -29,7 +29,7 @@ export function FilterBar({
   hasFilters,
 }: FilterBarProps) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2 py-3">
       <Select value={priority || "all"} onValueChange={(v) => onPriorityChange(v === "all" ? "" : v)}>
         <SelectTrigger className="w-[140px] h-8 text-xs bg-zinc-900 border-zinc-800">
           <SelectValue placeholder="Priority" />

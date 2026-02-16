@@ -52,10 +52,17 @@ export function EcosystemExplainer() {
     localStorage.setItem(STORAGE_KEY, "true");
   }
 
-  if (!hydrated) return null;
+  if (!hydrated) {
+    return (
+      <div
+        className="rounded-lg border border-zinc-800/50 bg-zinc-900/30 px-4 py-2.5 sm:px-6 min-h-[44px]"
+        aria-hidden="true"
+      />
+    );
+  }
 
   return (
-    <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-4 sm:px-6">
+    <div className="rounded-lg border border-zinc-800/50 bg-zinc-900/30 px-4 py-2.5 sm:px-6">
       {/* Collapsed header — always visible */}
       <button
         onClick={toggle}
@@ -65,7 +72,7 @@ export function EcosystemExplainer() {
           New to AI-assisted development? Learn what skills, MCP servers, and
           tools do and why they matter.
         </p>
-        <span className="flex shrink-0 items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+        <span className="flex shrink-0 items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
           {collapsed ? "Learn more" : "Collapse"}
           <ChevronDown
             className={cn(
@@ -188,7 +195,7 @@ export function EcosystemExplainer() {
           <div className="flex justify-end pt-1">
             <button
               onClick={gotIt}
-              className="rounded-md bg-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100 transition-colors"
+              className="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
             >
               Got it
             </button>

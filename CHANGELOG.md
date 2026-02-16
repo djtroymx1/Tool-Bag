@@ -7,6 +7,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Hero intro section on catalog page with headline, subtext, and 3 icon callouts (Browse & Filter, Select for Project, Export Config); dismissible with localStorage persistence
+- First-visit tooltip tour (4 steps) highlighting platform toggle, category tabs, card selection, and project navigation; spotlight overlay with SVG mask, skip/replay support, localStorage persistence
+- Tour replay button ("?") in site header for returning users to re-trigger the onboarding tour
+- "Show tools for:" label on the platform toggle for clearer context
+- "Showing X of Y tools" results count with aria-live for screen reader accessibility
+- "Clear all filters" button in empty state when no tools match current filters
+- Left border accent on catalog cards: emerald for Essential priority, sky for Recommended
+- Smooth card expand/collapse animation using CSS Grid `grid-rows-[0fr]/[1fr]` transition
+- Focus-visible ring (emerald) on interactive card elements for keyboard navigation
 - Initialized Next.js 16 project with TypeScript (strict), Tailwind CSS v4, App Router, src/ directory
 - Configured shadcn/ui (New York style) with 17 components: badge, button, card, checkbox, command, dialog, dropdown-menu, input, scroll-area, select, separator, sheet, skeleton, tabs, toggle, toggle-group, tooltip
 - Dark theme with zinc-950 background, zinc-900 cards, zinc-800 borders (OKLCH color space)
@@ -45,12 +54,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Playwright end-to-end coverage for catalog filtering/interaction and project export flow
 
 ### Changed
+- Updated badge styling across priority, source, and platform badges: increased background opacity from /10 to /15, border opacity from /20 to /25, added rounded-md px-2 py-0.5 font-medium for consistent pill shape
+- Platform badge for "Both" now uses flat zinc style instead of gradient
+- Codex platform badge color changed from green to emerald to match design system
+- Card description text upgraded from text-xs text-zinc-400 to text-sm text-zinc-300 for better readability
+- Card title weight changed from font-medium to font-semibold text-zinc-100
+- Selected card state changed from blue ring to emerald background tint (bg-emerald-950/20 border-emerald-800/40)
+- Install command code blocks now use text-xs font-mono text-emerald-400 on bg-zinc-950/80
+- Active states for platform toggle, category tabs, and nav links now use high-contrast inverted style (bg-zinc-100 text-zinc-900)
+- Ecosystem explainer container adjusted to bg-zinc-900/30 border-zinc-800/50; "Learn more" and "Got it" links now emerald-400
+- Maximum content width reduced from max-w-7xl to max-w-6xl across layout, header, and footer
+- Filter bar now has py-3 breathing room
+- Section spacing standardized to gap-6
+- Footer text centered
+- Copy button feedback text changed from "Copied" to "Copied!"
 - Renamed project from "Codex Catalog" to "Tool Bag" across all references
 - Replaced boilerplate README with project-specific local setup, deployment, and catalog maintenance instructions
 - Export config tabs are now fully controlled and auto-switch to a valid tab when platform changes
 - Codex TOML generation now prioritizes `mcp_config_codex` and falls back to `mcp_config_claude`
 
 ### Fixed
+- Removed hidden collapsed-card controls from keyboard tab order by applying `inert` to collapsed expanded-content containers
+- Synchronized onboarding replay button state in-session and cross-tab via `tour-status-changed` + `storage` event listeners
+- Improved onboarding tour accessibility with dialog semantics, focus trapping, Escape-to-dismiss support, and aria-hidden backdrop overlay
+- Reduced above-the-fold hydration layout shift by rendering SSR placeholders for Hero intro and Ecosystem explainer
+- Route-gated the tour replay button to the catalog page so replay is only shown where tour targets exist
+- Expanded Playwright coverage for collapsed-card accessibility, expanded-content inert toggling, and full onboarding lifecycle/replay flows
 - Sanitized catalog search queries before Supabase `or()` filtering to prevent malformed filter expressions
 - Added explicit Supabase error UI on catalog page with retry action and development-only error logging
 - Resolved React hook lint violations by removing synchronous state updates from effects in selection and explainer components

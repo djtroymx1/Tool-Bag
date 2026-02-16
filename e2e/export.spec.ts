@@ -2,6 +2,13 @@ import { expect, test } from "@playwright/test";
 
 const EXPORT_TAB_LABELS = ["CLAUDE.md", "mcp.json", "AGENTS.md", "config.toml"];
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("catalog-tour-completed", "true");
+    localStorage.setItem("hero-dismissed", "true");
+  });
+});
+
 test("selection flows from catalog to export and copy works", async ({ page }) => {
   await page.goto("/");
 
@@ -11,7 +18,9 @@ test("selection flows from catalog to export and copy works", async ({ page }) =
   )?.trim();
   expect(selectedItemName).toBeTruthy();
 
-  await firstCard.getByRole("checkbox").click();
+  const selectionCheckbox = firstCard.getByRole("checkbox");
+  await selectionCheckbox.evaluate((el) => (el as HTMLButtonElement).click());
+  await expect(selectionCheckbox).toHaveAttribute("aria-checked", "true");
 
   await page.getByRole("link", { name: /Project/i }).click();
   await expect(page).toHaveURL(/\/project$/);
@@ -38,5 +47,5 @@ test("selection flows from catalog to export and copy works", async ({ page }) =
 
   const copyButton = page.getByRole("button", { name: "Copy" }).first();
   await copyButton.click();
-  await expect(page.getByRole("button", { name: "Copied" }).first()).toBeVisible();
+  await expect(page.getByRole("button", { name: "Copied!" }).first()).toBeVisible();
 });

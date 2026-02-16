@@ -2,8 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import type { Platform } from "@/types/catalog";
 
 const STYLES: Record<string, string> = {
-  "claude-code": "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  codex: "bg-green-500/10 text-green-400 border-green-500/20",
+  "claude-code": "bg-blue-500/15 text-blue-400 border-blue-500/25",
+  codex: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
 };
 
 export function PlatformBadge({ platforms }: { platforms: Platform[] }) {
@@ -11,7 +11,7 @@ export function PlatformBadge({ platforms }: { platforms: Platform[] }) {
     return (
       <Badge
         variant="outline"
-        className="bg-gradient-to-r from-blue-500/10 to-green-500/10 text-zinc-300 border-zinc-700 text-xs"
+        className="bg-zinc-500/15 text-zinc-300 border-zinc-600/25 rounded-md px-2 py-0.5 text-xs font-medium"
       >
         Both
       </Badge>
@@ -19,7 +19,7 @@ export function PlatformBadge({ platforms }: { platforms: Platform[] }) {
   }
   const p = platforms[0];
   return (
-    <Badge variant="outline" className={`${STYLES[p]} text-xs`}>
+    <Badge variant="outline" className={`${STYLES[p]} rounded-md px-2 py-0.5 text-xs font-medium`}>
       {p === "claude-code" ? "Claude Code" : "Codex"}
     </Badge>
   );

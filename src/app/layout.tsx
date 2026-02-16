@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SelectionProvider } from "@/components/providers/selection-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { TooltipTour } from "@/components/onboarding/tooltip-tour";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,10 +38,11 @@ export default function RootLayout({
           <TooltipProvider>
             <SelectionProvider>
               <SiteHeader />
-              <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+              <main className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
                 {children}
               </main>
               <SiteFooter />
+              <TooltipTour />
             </SelectionProvider>
           </TooltipProvider>
         </NuqsAdapter>

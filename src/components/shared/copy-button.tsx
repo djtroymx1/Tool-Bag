@@ -29,7 +29,7 @@ export function CopyButton({
       {copied ? (
         <>
           <Check className="h-3.5 w-3.5 text-emerald-400" />
-          <span className="text-xs text-emerald-400">Copied</span>
+          <span className="text-xs text-emerald-400">Copied!</span>
         </>
       ) : (
         <>
