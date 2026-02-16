@@ -19,9 +19,33 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://toolbag.digitalvisionworks.com"),
   title: "Tool Bag — Claude Code & Codex Ecosystem Tools",
   description:
     "Browse, select, and export configuration files for the Claude Code and OpenAI Codex ecosystem. Skills, MCP servers, multi-agent tools, and more.",
+  openGraph: {
+    type: "website",
+    url: "https://toolbag.digitalvisionworks.com",
+    siteName: "Tool Bag",
+    title: "Tool Bag — Claude Code & Codex Ecosystem Tools",
+    description:
+      "Browse, select, and export configuration files for the Claude Code and OpenAI Codex ecosystem. Skills, MCP servers, multi-agent tools, and more.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Tool Bag - Claude Code and Codex ecosystem tools",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tool Bag — Claude Code & Codex Ecosystem Tools",
+    description:
+      "Browse, select, and export configuration files for the Claude Code and OpenAI Codex ecosystem. Skills, MCP servers, multi-agent tools, and more.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function RootLayout({
