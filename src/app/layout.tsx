@@ -25,14 +25,14 @@ export const metadata: Metadata = {
     "Browse, select, and export configuration files for the Claude Code and OpenAI Codex ecosystem. Skills, MCP servers, multi-agent tools, and more.",
   openGraph: {
     type: "website",
-    url: "https://toolbag.digitalvisionworks.com",
+    url: "https://toolbag.digitalvisionworks.com/",
     siteName: "Tool Bag",
     title: "Tool Bag — Claude Code & Codex Ecosystem Tools",
     description:
       "Browse, select, and export configuration files for the Claude Code and OpenAI Codex ecosystem. Skills, MCP servers, multi-agent tools, and more.",
     images: [
       {
-        url: "/opengraph-image",
+        url: "https://toolbag.digitalvisionworks.com/og-facebook.png?v=2026-02-16-2",
         width: 1200,
         height: 630,
         alt: "Tool Bag - Claude Code and Codex ecosystem tools",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "Tool Bag — Claude Code & Codex Ecosystem Tools",
     description:
       "Browse, select, and export configuration files for the Claude Code and OpenAI Codex ecosystem. Skills, MCP servers, multi-agent tools, and more.",
-    images: ["/opengraph-image"],
+    images: ["https://toolbag.digitalvisionworks.com/og-facebook.png?v=2026-02-16-2"],
   },
 };
 
