@@ -1,8 +1,14 @@
-export default function ProjectPage() {
-  return (
-    <div className="text-center py-20">
-      <h1 className="text-2xl font-bold">Project Builder</h1>
-      <p className="text-sm text-zinc-400 mt-2">Coming in Phase 5</p>
-    </div>
-  );
+import { createServerClient } from "@/lib/supabase/server";
+import { ProjectShell } from "@/components/project/project-shell";
+import type { CatalogItem } from "@/types/catalog";
+
+export default async function ProjectPage() {
+  const supabase = createServerClient();
+  const { data: allItems } = await supabase
+    .from("catalog_items")
+    .select("*")
+    .order("category")
+    .order("name");
+
+  return <ProjectShell allItems={(allItems ?? []) as CatalogItem[]} />;
 }
