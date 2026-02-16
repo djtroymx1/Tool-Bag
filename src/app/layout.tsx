@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { SelectionProvider } from "@/components/providers/selection-provider";
+import { SiteHeader } from "@/components/layout/site-header";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,7 +34,12 @@ export default function RootLayout({
       >
         <NuqsAdapter>
           <TooltipProvider>
-            {children}
+            <SelectionProvider>
+              <SiteHeader />
+              <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+                {children}
+              </main>
+            </SelectionProvider>
           </TooltipProvider>
         </NuqsAdapter>
       </body>

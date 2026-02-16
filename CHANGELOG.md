@@ -20,3 +20,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Constants: categories with icons, platforms, priorities, sources, cross-platform comparison table (11 rows)
 - nuqs search params parsers for URL-synced filtering (platform, category, q, priority, source)
 - Utility functions: cn(), groupBy()
+- Catalog page (/) with server-side Supabase filtering and card grid
+- Platform toggle (Claude Code / Codex / Both) with URL param persistence
+- Debounced search input (300ms) across name and description
+- Category tabs with item counts and lucide icons
+- Priority and source filter dropdowns with clear all
+- Expandable catalog cards with install commands per platform, MCP config preview, copy-to-clipboard
+- Badge components: platform (blue/green/gradient), priority (emerald/sky/zinc), source (amber/violet)
+- Selection system with localStorage persistence and React Context provider
+- Site header with active nav highlighting and selection count badge
+- Placeholder pages for /project, /project/export, /compare
