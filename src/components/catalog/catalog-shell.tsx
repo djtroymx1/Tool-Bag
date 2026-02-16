@@ -60,7 +60,7 @@ export function CatalogShell({
       />
 
       {/* Results count */}
-      <div className="text-xs text-zinc-500">
+      <div className="text-xs text-zinc-500" role="status" aria-live="polite">
         {initialItems.length} tool{initialItems.length !== 1 ? "s" : ""}
       </div>
 

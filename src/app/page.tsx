@@ -2,8 +2,15 @@ import { createServerClient } from "@/lib/supabase/server";
 import { searchParamsCache } from "@/lib/search-params";
 import { CatalogShell } from "@/components/catalog/catalog-shell";
 import { EcosystemExplainer } from "@/components/catalog/ecosystem-explainer";
+import { CatalogErrorState } from "@/components/catalog/catalog-error-state";
 import type { SearchParams } from "nuqs/server";
 import type { CatalogItem } from "@/types/catalog";
+
+export const dynamic = "force-dynamic";
+
+function sanitizeSearchQuery(searchQuery: string): string {
+  return searchQuery.replace(/[^a-zA-Z0-9\s\-\.]/g, "").trim();
+}
 
 export default async function CatalogPage({
   searchParams,
@@ -12,12 +19,7 @@ export default async function CatalogPage({
 }) {
   const params = await searchParamsCache.parse(searchParams);
   const supabase = createServerClient();
-
-  // Fetch all items for category counts (unfiltered)
-  const { data: allItems } = await supabase
-    .from("catalog_items")
-    .select("*")
-    .order("name");
+  const sanitizedQuery = sanitizeSearchQuery(params.q);
 
   // Build filtered query
   let query = supabase.from("catalog_items").select("*");
@@ -34,13 +36,34 @@ export default async function CatalogPage({
   if (params.source) {
     query = query.eq("source", params.source);
   }
-  if (params.q) {
+  if (sanitizedQuery) {
     query = query.or(
-      `name.ilike.%${params.q}%,description.ilike.%${params.q}%`
+      `name.ilike.%${sanitizedQuery}%,description.ilike.%${sanitizedQuery}%`
     );
   }
 
-  const { data: filteredItems } = await query.order("name");
+  const [allItemsResult, filteredItemsResult] = await Promise.all([
+    supabase.from("catalog_items").select("*").order("name"),
+    query.order("name"),
+  ]);
+  const { data: allItems, error: allItemsError } = allItemsResult;
+  const { data: filteredItems, error: filteredItemsError } = filteredItemsResult;
+
+  if (allItemsError || filteredItemsError) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("Failed to load catalog data from Supabase", {
+        allItemsError,
+        filteredItemsError,
+      });
+    }
+
+    return (
+      <div className="flex flex-col gap-6">
+        <EcosystemExplainer />
+        <CatalogErrorState />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">

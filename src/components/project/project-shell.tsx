@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSelectionContext } from "@/components/providers/selection-provider";
 import { SelectedItemsList } from "./selected-items-list";
@@ -9,10 +10,25 @@ import { ArrowRight, Trash2 } from "lucide-react";
 import type { CatalogItem } from "@/types/catalog";
 
 export function ProjectShell({ allItems }: { allItems: CatalogItem[] }) {
-  const { selectedIds, remove, clear, count } = useSelectionContext();
-  const selectedItems = allItems.filter((item) => selectedIds.has(item.id));
+  const { selectedIds, remove, clear, setFromIds } = useSelectionContext();
+  const allItemIds = useMemo(
+    () => new Set(allItems.map((item) => item.id)),
+    [allItems]
+  );
+  const selectedItems = useMemo(
+    () => allItems.filter((item) => selectedIds.has(item.id)),
+    [allItems, selectedIds]
+  );
+  const selectedCount = selectedItems.length;
 
-  if (count === 0) {
+  useEffect(() => {
+    const validIds = [...selectedIds].filter((id) => allItemIds.has(id));
+    if (validIds.length !== selectedIds.size) {
+      setFromIds(validIds);
+    }
+  }, [allItemIds, selectedIds, setFromIds]);
+
+  if (selectedCount === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
         <h2 className="text-lg font-semibold">No tools selected</h2>
@@ -36,7 +52,7 @@ export function ProjectShell({ allItems }: { allItems: CatalogItem[] }) {
         <div>
           <h1 className="text-xl font-semibold">Project Builder</h1>
           <p className="text-sm text-zinc-400 mt-1">
-            {count} tool{count !== 1 ? "s" : ""} selected
+            {selectedCount} tool{selectedCount !== 1 ? "s" : ""} selected
           </p>
         </div>
         <div className="flex gap-2">

@@ -22,8 +22,7 @@ export function SearchInput({
       if (local !== value) onChange(local);
     }, 300);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [local]);
+  }, [local, onChange, value]);
 
   return (
     <div className="relative w-full sm:w-80">
@@ -36,6 +35,8 @@ export function SearchInput({
       />
       {local && (
         <button
+          type="button"
+          aria-label="Clear search"
           onClick={() => {
             setLocal("");
             onChange("");

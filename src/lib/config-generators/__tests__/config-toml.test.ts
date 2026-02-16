@@ -4,6 +4,7 @@ import {
   skillItem,
   mcpItem,
   mcpItemWithEnv,
+  mcpItemWithCodexOverride,
   allFixtureItems,
 } from "./fixtures";
 
@@ -17,7 +18,7 @@ describe("generateConfigToml", () => {
 
   it("produces no MCP sections for items without mcp_config", () => {
     const result = generateConfigToml([skillItem]);
-    expect(result).not.toContain("[mcp_servers");
+    expect(result).not.toContain("[mcp.servers");
     expect(result).not.toContain("# MCP Servers");
   });
 
@@ -25,7 +26,7 @@ describe("generateConfigToml", () => {
     const result = generateConfigToml([mcpItem]);
     expect(result).toContain("# MCP Servers");
     expect(result).toContain("# Context7 MCP");
-    expect(result).toContain("[mcp_servers.context7]");
+    expect(result).toContain("[mcp.servers.context7]");
   });
 
   it("formats string values with quotes", () => {
@@ -42,24 +43,34 @@ describe("generateConfigToml", () => {
 
   it("generates env subsection for items with env vars", () => {
     const result = generateConfigToml([mcpItemWithEnv]);
-    expect(result).toContain("[mcp_servers.supabase]");
-    expect(result).toContain("[mcp_servers.supabase.env]");
+    expect(result).toContain("[mcp.servers.supabase]");
+    expect(result).toContain("[mcp.servers.supabase.env]");
     expect(result).toContain('SUPABASE_ACCESS_TOKEN = "<your-token>"');
   });
 
   it("generates sections for multiple MCP items", () => {
     const result = generateConfigToml([mcpItem, mcpItemWithEnv]);
-    expect(result).toContain("[mcp_servers.context7]");
-    expect(result).toContain("[mcp_servers.supabase]");
+    expect(result).toContain("[mcp.servers.context7]");
+    expect(result).toContain("[mcp.servers.supabase]");
+  });
+
+  it("prefers codex MCP config and falls back to claude MCP config", () => {
+    const result = generateConfigToml([mcpItem, mcpItemWithCodexOverride]);
+    expect(result).toContain("[mcp.servers.context7]");
+    expect(result).toContain("[mcp.servers.playwright]");
+    expect(result).toContain('command = "npx"');
+    expect(result).toContain('args = ["@playwright/mcp@latest"]');
+    expect(result).not.toContain("https://example.com/claude-playwright");
   });
 
   it("only includes MCP items from mixed input", () => {
     const result = generateConfigToml(allFixtureItems);
-    // Should have context7 and supabase sections
-    expect(result).toContain("[mcp_servers.context7]");
-    expect(result).toContain("[mcp_servers.supabase]");
+    // Should have context7, supabase, and playwright sections
+    expect(result).toContain("[mcp.servers.context7]");
+    expect(result).toContain("[mcp.servers.supabase]");
+    expect(result).toContain("[mcp.servers.playwright]");
     // Should not have sections for non-MCP items
-    expect(result).not.toContain("[mcp_servers.claude-debugs-for-you]");
-    expect(result).not.toContain("[mcp_servers.codex-tool]");
+    expect(result).not.toContain("[mcp.servers.claude-debugs-for-you]");
+    expect(result).not.toContain("[mcp.servers.codex-tool]");
   });
 });

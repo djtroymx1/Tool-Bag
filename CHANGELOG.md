@@ -42,6 +42,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Expandable "What are Agent Skills & Tools?" explainer section on catalog page with 5 content sections, localStorage-persisted collapse state, smooth transitions, and "Got it" dismiss button
 - Site footer with "Catalog last updated: February 2026 · Actively maintained by Digital VisionWorks LLC" on every page
 - Vitest unit tests (30 tests) for all 4 config generators
+- Playwright end-to-end coverage for catalog filtering/interaction and project export flow
 
 ### Changed
 - Renamed project from "Codex Catalog" to "Tool Bag" across all references
+- Replaced boilerplate README with project-specific local setup, deployment, and catalog maintenance instructions
+- Export config tabs are now fully controlled and auto-switch to a valid tab when platform changes
+- Codex TOML generation now prioritizes `mcp_config_codex` and falls back to `mcp_config_claude`
+
+### Fixed
+- Sanitized catalog search queries before Supabase `or()` filtering to prevent malformed filter expressions
+- Added explicit Supabase error UI on catalog page with retry action and development-only error logging
+- Resolved React hook lint violations by removing synchronous state updates from effects in selection and explainer components
+- Enabled dynamic rendering for catalog, project, compare, and export routes to keep Supabase-backed content fresh
+- Pruned stale localStorage selection IDs against the live catalog item list on project and export pages
+- Added accessibility improvements: aria labels for icon-only controls, live region for results count, and button-based sortable table headers

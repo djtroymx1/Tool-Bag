@@ -55,7 +55,7 @@ describe("generateMcpJson", () => {
   it("filters out items without mcp_config_claude from mixed set", () => {
     const result = generateMcpJson(allFixtureItems);
     const parsed = JSON.parse(result);
-    // Only mcpItem and mcpItemWithEnv have mcp_config_claude
-    expect(Object.keys(parsed.mcpServers)).toHaveLength(2);
+    // mcpItem, mcpItemWithEnv, and mcpItemWithCodexOverride include claude MCP config
+    expect(Object.keys(parsed.mcpServers)).toHaveLength(3);
   });
 });

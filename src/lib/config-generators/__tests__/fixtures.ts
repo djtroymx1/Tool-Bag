@@ -90,6 +90,33 @@ export const mcpItemWithEnv = makeItem({
   priority: "recommended",
 });
 
+/** MCP item with codex-specific config overriding claude config */
+export const mcpItemWithCodexOverride = makeItem({
+  id: "66666666-6666-6666-6666-666666666666",
+  slug: "playwright-mcp",
+  name: "Playwright MCP",
+  category: "MCP Servers",
+  source: "Official",
+  stars: "1.2k",
+  url: "https://github.com/microsoft/playwright-mcp",
+  description: "Browser automation MCP server.",
+  codex_install: "codex mcp add playwright -- npx @playwright/mcp@latest",
+  mcp_config_claude: {
+    playwright: {
+      type: "url",
+      url: "https://example.com/claude-playwright",
+    },
+  },
+  mcp_config_codex: {
+    playwright: {
+      command: "npx",
+      args: ["@playwright/mcp@latest"],
+    },
+  },
+  platforms: ["claude-code", "codex"],
+  priority: "essential",
+});
+
 /** A Codex-only item */
 export const codexOnlyItem = makeItem({
   id: "44444444-4444-4444-4444-444444444444",
@@ -127,6 +154,7 @@ export const allFixtureItems: CatalogItem[] = [
   skillItem,
   mcpItem,
   mcpItemWithEnv,
+  mcpItemWithCodexOverride,
   codexOnlyItem,
   bookmarkItem,
 ];

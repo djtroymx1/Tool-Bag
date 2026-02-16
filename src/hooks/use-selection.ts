@@ -1,29 +1,47 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "tool-bag-selection";
 
+function readStoredSelection(): Set<string> {
+  if (typeof window === "undefined") {
+    return new Set();
+  }
+
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) {
+      return new Set();
+    }
+
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) {
+      return new Set();
+    }
+
+    return new Set(parsed.filter((value): value is string => typeof value === "string"));
+  } catch {
+    return new Set();
+  }
+}
+
 export function useSelection() {
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [hydrated, setHydrated] = useState(false);
+  const hydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() =>
+    readStoredSelection()
+  );
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setSelectedIds(new Set(JSON.parse(stored)));
-      }
-    } catch {
-      // ignore parse errors
+    if (!hydrated || typeof window === "undefined") {
+      return;
     }
-    setHydrated(true);
-  }, []);
 
-  useEffect(() => {
-    if (hydrated) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...selectedIds]));
-    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...selectedIds]));
   }, [selectedIds, hydrated]);
 
   const toggle = useCallback((id: string) => {

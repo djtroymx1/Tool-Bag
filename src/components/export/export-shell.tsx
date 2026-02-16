@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSelectionContext } from "@/components/providers/selection-provider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -18,14 +18,41 @@ import { downloadProjectZip } from "@/lib/zip";
 import type { CatalogItem } from "@/types/catalog";
 import type { ExportPlatform } from "@/types/project";
 
+type ExportTab = "claude-md" | "mcp-json" | "agents-md" | "config-toml";
+
+const PLATFORM_TABS: Record<ExportPlatform, ExportTab[]> = {
+  both: ["claude-md", "mcp-json", "agents-md", "config-toml"],
+  "claude-code": ["claude-md", "mcp-json"],
+  codex: ["agents-md", "config-toml"],
+};
+
+function getFirstTab(platform: ExportPlatform): ExportTab {
+  return PLATFORM_TABS[platform][0];
+}
+
 export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
-  const { selectedIds, count } = useSelectionContext();
+  const { selectedIds, setFromIds } = useSelectionContext();
   const [platform, setPlatform] = useState<ExportPlatform>("both");
+  const [activeTab, setActiveTab] = useState<ExportTab>(() =>
+    getFirstTab("both")
+  );
+  const allItemIds = useMemo(
+    () => new Set(allItems.map((item) => item.id)),
+    [allItems]
+  );
+
+  useEffect(() => {
+    const validIds = [...selectedIds].filter((id) => allItemIds.has(id));
+    if (validIds.length !== selectedIds.size) {
+      setFromIds(validIds);
+    }
+  }, [allItemIds, selectedIds, setFromIds]);
 
   const selectedItems = useMemo(
     () => allItems.filter((item) => selectedIds.has(item.id)),
     [allItems, selectedIds]
   );
+  const selectedCount = selectedItems.length;
 
   const configs = useMemo(() => {
     const claudeItems = selectedItems.filter((i) =>
@@ -43,7 +70,7 @@ export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
     };
   }, [selectedItems]);
 
-  if (count === 0) {
+  if (selectedCount === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
         <h2 className="text-lg font-semibold">No tools selected</h2>
@@ -75,8 +102,6 @@ export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
     await downloadProjectZip(files, "tool-bag");
   }
 
-  const defaultTab = showClaude ? "claude-md" : "agents-md";
-
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
@@ -91,7 +116,7 @@ export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
           <div>
             <h1 className="text-xl font-semibold">Export Config</h1>
             <p className="text-sm text-zinc-400">
-              {count} tool{count !== 1 ? "s" : ""} selected
+              {selectedCount} tool{selectedCount !== 1 ? "s" : ""} selected
             </p>
           </div>
         </div>
@@ -108,7 +133,10 @@ export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
           type="single"
           value={platform}
           onValueChange={(v) => {
-            if (v) setPlatform(v as ExportPlatform);
+            if (!v) return;
+            const nextPlatform = v as ExportPlatform;
+            setPlatform(nextPlatform);
+            setActiveTab(getFirstTab(nextPlatform));
           }}
           className="bg-zinc-900 rounded-lg p-0.5 border border-zinc-800"
         >
@@ -134,7 +162,16 @@ export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
       </div>
 
       {/* Config tabs */}
-      <Tabs defaultValue={defaultTab} className="w-full">
+      <Tabs
+        value={activeTab}
+        onValueChange={(nextTab) => {
+          const tab = nextTab as ExportTab;
+          if (PLATFORM_TABS[platform].includes(tab)) {
+            setActiveTab(tab);
+          }
+        }}
+        className="w-full"
+      >
         <TabsList className="bg-zinc-900 border border-zinc-800">
           {showClaude && (
             <>

@@ -12,6 +12,7 @@ export function PlatformToggle({
 }) {
   return (
     <ToggleGroup
+      data-testid="platform-toggle"
       type="single"
       value={value}
       onValueChange={(v) => {

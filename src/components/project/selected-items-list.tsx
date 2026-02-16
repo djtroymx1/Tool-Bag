@@ -41,11 +41,14 @@ export function SelectedItemsList({
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Open ${item.name} documentation`}
                     className="text-zinc-500 hover:text-zinc-300 p-1"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                   <button
+                    type="button"
+                    aria-label={`Remove ${item.name} from selection`}
                     onClick={() => onRemove(item.id)}
                     className="text-zinc-500 hover:text-red-400 p-1 transition-colors"
                   >

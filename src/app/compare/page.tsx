@@ -2,6 +2,8 @@ import { createServerClient } from "@/lib/supabase/server";
 import { ComparisonTable } from "@/components/compare/comparison-table";
 import type { CatalogItem } from "@/types/catalog";
 
+export const dynamic = "force-dynamic";
+
 export default async function ComparePage() {
   const supabase = createServerClient();
   const { data: items } = await supabase

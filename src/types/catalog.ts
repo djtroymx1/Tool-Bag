@@ -13,6 +13,16 @@ export type Priority = "essential" | "recommended" | "optional";
 
 export type Source = "Official" | "Community";
 
+export type McpServerConfig = {
+  type?: string;
+  url?: string;
+  command?: string;
+  args?: string[];
+  env?: Record<string, string>;
+} & Record<string, unknown>;
+
+export type McpServerMap = Record<string, McpServerConfig>;
+
 export interface CatalogItem {
   id: string;
   slug: string;
@@ -25,8 +35,8 @@ export interface CatalogItem {
   description: string;
   claude_code_install: string | null;
   codex_install: string | null;
-  mcp_config_claude: Record<string, unknown> | null;
-  mcp_config_codex: Record<string, unknown> | null;
+  mcp_config_claude: McpServerMap | null;
+  mcp_config_codex: McpServerMap | null;
   platforms: Platform[];
   priority: Priority;
   notes: string | null;

@@ -24,6 +24,7 @@ export function CatalogCard({
 
   return (
     <Card
+      data-testid="catalog-card"
       className={`relative flex flex-col gap-3 p-4 bg-card border-border transition-all duration-200 hover:border-zinc-700 ${
         isSelected ? "ring-1 ring-blue-500/30 border-blue-500/20" : ""
       }`}
@@ -34,11 +35,15 @@ export function CatalogCard({
           <Checkbox
             checked={isSelected}
             onCheckedChange={onToggle}
+            aria-label={`Select ${item.name}`}
             className="mt-0.5"
           />
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-sm font-medium leading-tight">
+              <h3
+                data-testid="catalog-card-title"
+                className="text-sm font-medium leading-tight"
+              >
                 {item.name}
               </h3>
               {item.stars !== "--" && (
@@ -59,6 +64,7 @@ export function CatalogCard({
           href={item.url}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`Open ${item.name} documentation`}
           className="shrink-0 text-zinc-500 hover:text-zinc-300 transition-colors"
         >
           <ExternalLink className="h-3.5 w-3.5" />
@@ -87,6 +93,9 @@ export function CatalogCard({
 
       {/* Expand toggle */}
       <button
+        type="button"
+        aria-label={expanded ? `Collapse ${item.name}` : `Expand ${item.name}`}
+        data-testid="catalog-card-expand"
         onClick={() => setExpanded(!expanded)}
         className="flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-300 transition-colors self-start"
       >
@@ -100,7 +109,10 @@ export function CatalogCard({
 
       {/* Expanded content */}
       {expanded && (
-        <div className="flex flex-col gap-3 pt-2 border-t border-zinc-800">
+        <div
+          data-testid="catalog-card-expanded"
+          className="flex flex-col gap-3 pt-2 border-t border-zinc-800"
+        >
           {item.claude_code_install && (
             <div>
               <div className="flex items-center justify-between mb-1">

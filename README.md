@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tool Bag
 
-## Getting Started
+Tool Bag is a Next.js application for browsing AI coding ecosystem tools (skills, MCP servers, workflows), selecting the right stack for a project, and exporting ready-to-use configuration files for Claude Code and Codex.
 
-First, run the development server:
+## Run Locally
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create `.env.local`:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://<your-project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
+```
+
+3. Start the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deploy on Vercel with Supabase as the data source:
 
-## Learn More
+1. Push this repository to GitHub.
+2. Import the project into Vercel.
+3. Configure environment variables in Vercel:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. Deploy.
 
-To learn more about Next.js, take a look at the following resources:
+## Update Catalog Data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Catalog items are stored in Supabase (`catalog_items`).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Use Supabase Dashboard:
+   - Open Table Editor.
+   - Select `catalog_items`.
+   - Insert or update rows.
 
-## Deploy on Vercel
+2. Or use SQL:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sql
+insert into catalog_items (
+  slug,
+  name,
+  category,
+  source,
+  stars,
+  url,
+  stack,
+  description,
+  claude_code_install,
+  codex_install,
+  mcp_config_claude,
+  mcp_config_codex,
+  platforms,
+  priority,
+  notes,
+  last_verified_at
+) values (
+  'example-tool',
+  'Example Tool',
+  'Skills & Plugins',
+  'Community',
+  '--',
+  'https://example.com',
+  array['General'],
+  'Example description',
+  null,
+  null,
+  null,
+  null,
+  array['claude-code', 'codex'],
+  'recommended',
+  null,
+  now()
+);
+```

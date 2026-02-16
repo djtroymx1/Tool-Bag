@@ -1,10 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = "explainer-collapsed";
+
+function readCollapsedPreference(): boolean {
+  if (typeof window === "undefined") {
+    return true;
+  }
+
+  return localStorage.getItem(STORAGE_KEY) !== "false";
+}
 
 function Section({
   headline,
@@ -24,16 +32,14 @@ function Section({
 }
 
 export function EcosystemExplainer() {
-  const [collapsed, setCollapsed] = useState(true);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "false") {
-      setCollapsed(false);
-    }
-    setHydrated(true);
-  }, []);
+  const hydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const [collapsed, setCollapsed] = useState<boolean>(() =>
+    readCollapsedPreference()
+  );
 
   function toggle() {
     const next = !collapsed;

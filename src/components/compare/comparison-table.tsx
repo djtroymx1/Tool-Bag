@@ -102,13 +102,24 @@ export function ComparisonTable({ items }: { items: CatalogItem[] }) {
                   ).map(([key, label]) => (
                     <th
                       key={key}
-                      className="px-4 py-2.5 text-left text-xs font-medium text-zinc-400 cursor-pointer hover:text-zinc-200 select-none"
-                      onClick={() => handleSort(key)}
+                      className="px-4 py-2.5 text-left text-xs font-medium text-zinc-400"
+                      aria-sort={
+                        sortKey === key
+                          ? sortDir === "asc"
+                            ? "ascending"
+                            : "descending"
+                          : "none"
+                      }
                     >
-                      <span className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => handleSort(key)}
+                        className="flex items-center gap-1 hover:text-zinc-200 select-none"
+                        aria-label={`Sort by ${label}`}
+                      >
                         {label}
                         <ArrowUpDown className="h-3 w-3" />
-                      </span>
+                      </button>
                     </th>
                   ))}
                   <th className="px-4 py-2.5 text-left text-xs font-medium text-zinc-400">
