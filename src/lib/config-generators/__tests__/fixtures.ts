@@ -20,6 +20,7 @@ function makeItem(overrides: Partial<CatalogItem>): CatalogItem {
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
     last_verified_at: now,
     created_at: now,
     updated_at: now,

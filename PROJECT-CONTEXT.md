@@ -84,6 +84,7 @@ Local path: /Users/djtroy/Desktop/ToolBag
 8. Custom DOM events for tour/header state sync (not global state library)
 9. inert attribute for collapsed card accessibility (not tabIndex management)
 10. Hydration placeholders for localStorage-dependent components (prevents CLS)
+11. Activation hints in CLAUDE.md / AGENTS.md (tells the agent WHEN to use each tool, not just what's installed)
 
 ## Database Schema Quick Reference
 
@@ -105,6 +106,7 @@ mcp_config_codex     jsonb (Codex-specific MCP config if different, usually NULL
 platforms      text[] (ARRAY['claude-code','codex'] or subset)
 priority       text ('essential' | 'recommended' | 'optional')
 notes          text (nullable)
+activation_hint    text (1-2 sentence agent trigger instruction, or NULL)
 last_verified_at  timestamptz
 created_at     timestamptz
 updated_at     timestamptz

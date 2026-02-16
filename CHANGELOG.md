@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Updated all project documentation to reference new custom domain URL
 
 ### Added
+- `activation_hint` field on catalog items: 1-2 sentence instructions that tell AI agents when and how to use each tool
+- "Tool Activation Rules" section in generated CLAUDE.md and AGENTS.md files, populated from activation hints of selected items
+- Activation rule display in expanded catalog cards (shows what instruction will be generated)
+- Educational callout on export page explaining tool activation rules
 - Hero intro section on catalog page with headline, subtext, and 3 icon callouts (Browse & Filter, Select for Project, Export Config); dismissible with localStorage persistence
 - First-visit tooltip tour (4 steps) highlighting platform toggle, category tabs, card selection, and project navigation; spotlight overlay with SVG mask, skip/replay support, localStorage persistence
 - Tour replay button ("?") in site header for returning users to re-trigger the onboarding tour

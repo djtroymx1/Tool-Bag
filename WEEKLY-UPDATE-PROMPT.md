@@ -136,7 +136,7 @@ Here are three real entries from the catalog. All new items must match this form
 
 EXAMPLE 1 — Skill entry:
 ```sql
-INSERT INTO catalog_items (slug, name, category, source, stars, url, stack, description, claude_code_install, codex_install, mcp_config_claude, mcp_config_codex, platforms, priority, notes, last_verified_at)
+INSERT INTO catalog_items (slug, name, category, source, stars, url, stack, description, claude_code_install, codex_install, mcp_config_claude, mcp_config_codex, platforms, priority, notes, activation_hint, last_verified_at)
 VALUES (
   'superpowers',
   'Superpowers (obra)',
@@ -153,13 +153,14 @@ VALUES (
   ARRAY['claude-code','codex'],
   'essential',
   NULL,
+  'Follow all Superpowers rules for every task: use TDD, verify before completing, debug systematically, brainstorm before implementing, and dispatch subagents for parallel work. Never skip verification.',
   now()
 );
 ```
 
 EXAMPLE 2 — MCP Server entry:
 ```sql
-INSERT INTO catalog_items (slug, name, category, source, stars, url, stack, description, claude_code_install, codex_install, mcp_config_claude, mcp_config_codex, platforms, priority, notes, last_verified_at)
+INSERT INTO catalog_items (slug, name, category, source, stars, url, stack, description, claude_code_install, codex_install, mcp_config_claude, mcp_config_codex, platforms, priority, notes, activation_hint, last_verified_at)
 VALUES (
   'supabase-mcp',
   'Supabase MCP',
@@ -176,13 +177,14 @@ VALUES (
   ARRAY['claude-code','codex'],
   'essential',
   NULL,
+  'Use Supabase MCP for all database operations: queries, migrations, schema changes, type generation, and Edge Functions. Never write raw SQL files manually when Supabase MCP is available.',
   now()
 );
 ```
 
 EXAMPLE 3 — Multi-Agent entry:
 ```sql
-INSERT INTO catalog_items (slug, name, category, source, stars, url, stack, description, claude_code_install, codex_install, mcp_config_claude, mcp_config_codex, platforms, priority, notes, last_verified_at)
+INSERT INTO catalog_items (slug, name, category, source, stars, url, stack, description, claude_code_install, codex_install, mcp_config_claude, mcp_config_codex, platforms, priority, notes, activation_hint, last_verified_at)
 VALUES (
   'claude-flow',
   'claude-flow',
@@ -199,6 +201,7 @@ VALUES (
   ARRAY['claude-code','codex'],
   'recommended',
   NULL,
+  'Use claude-flow orchestration for complex multi-step workflows that require coordination between multiple agents. Set up the topology before starting the work.',
   now()
 );
 ```
@@ -248,6 +251,14 @@ PRIORITY:
 - 'recommended': Strong value-add but not required. Well-maintained community tools with real traction.
 - 'optional': Niche, experimental, or very specific use case. Still worth knowing about.
 
+ACTIVATION HINTS (activation_hint):
+- 1-2 sentences that tell the AI agent WHEN and HOW to use this tool
+- Written as direct instructions to the agent, not descriptions for humans
+- Start with an action verb: "Use...", "Run...", "Check...", "Follow...", "Apply..."
+- Be specific about trigger conditions: "before every commit", "when handling database operations", "for all UI changes"
+- End with a consequence or boundary: "Never skip verification", "Do not write custom code when MCP is available"
+- Set to NULL only for curated lists and reference-only items that are not directly actionable
+
 SLUGS:
 - All lowercase, hyphens for spaces: 'my-tool-name'
 - Keep them short and descriptive
@@ -271,6 +282,7 @@ For each item that needs updating, provide:
 UPDATE catalog_items
 SET description = 'new description',
     stars = 'new-count',
+    activation_hint = 'new activation instruction if behavior changed',
     notes = 'what changed',
     last_verified_at = now(),
     updated_at = now()

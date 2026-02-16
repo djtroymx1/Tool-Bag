@@ -159,10 +159,10 @@ User selects platform (Claude Code / Codex / Both)
     ↓ controlled tabs auto-switch to valid tab
     ↓
 config-generators/ (pure functions)
-    ↓ generateClaudeMd(items) → string
-    ↓ generateAgentsMd(items) → string
-    ↓ generateMcpJson(items) → string (valid JSON)
-    ↓ generateConfigToml(items) → string (valid TOML, prefers mcp_config_codex)
+    ↓ generateClaudeMd(items) → string (includes Tool Activation Rules section)
+    ↓ generateAgentsMd(items) → string (includes Tool Activation Rules section)
+    ↓ generateMcpJson(items) → string (valid JSON, no activation hints)
+    ↓ generateConfigToml(items) → string (valid TOML, no activation hints)
     ↓
 User copies individual configs or downloads ZIP
     ↓ zip.ts wraps JSZip, runs client-side only

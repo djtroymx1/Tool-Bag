@@ -161,6 +161,17 @@ export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
         </ToggleGroup>
       </div>
 
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4">
+        <p className="text-sm text-zinc-300">
+          <span className="font-medium text-zinc-100">
+            New: Tool Activation Rules
+          </span>{" "}
+          - Your exported CLAUDE.md and AGENTS.md files now include activation
+          rules that tell your AI agent when and how to use each tool. These
+          rules make your tools work proactively instead of waiting to be asked.
+        </p>
+      </div>
+
       {/* Config tabs */}
       <Tabs
         value={activeTab}

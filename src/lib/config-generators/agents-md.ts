@@ -43,5 +43,25 @@ export function generateAgentsMd(items: CatalogItem[]): string {
     }
   }
 
+  // Tool activation rules section
+  const itemsWithHints = items.filter((item) => item.activation_hint);
+  if (itemsWithHints.length > 0) {
+    lines.push("## Tool Activation Rules");
+    lines.push("");
+    lines.push(
+      "These rules tell you WHEN and HOW to use each tool. Follow them proactively."
+    );
+    lines.push(
+      "Do not wait for the user to ask you to use a tool. If a rule applies, use the tool."
+    );
+    lines.push("");
+
+    for (const item of itemsWithHints) {
+      lines.push(`### ${item.name}`);
+      lines.push(item.activation_hint!);
+      lines.push("");
+    }
+  }
+
   return lines.join("\n");
 }

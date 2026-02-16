@@ -25,6 +25,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "anthropic-official-skills",
@@ -44,6 +45,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "openai-official-skills",
@@ -64,6 +66,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "oh-my-claudecode",
@@ -83,6 +86,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "everything-claude-code",
@@ -101,6 +105,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "composio-codex-skills",
@@ -120,6 +125,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "codex-settings",
@@ -139,6 +145,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["codex", "claude-code"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "openskills",
@@ -159,6 +166,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "agent-skills-cli",
@@ -177,6 +185,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "levnikolaevich-skills",
@@ -195,6 +204,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "tdd-guard",
@@ -213,6 +223,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "wshobson-agents",
@@ -231,6 +242,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "optional",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "tob-security",
@@ -249,6 +261,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "optional",
     notes: null,
+    activation_hint: null,
   },
 
   // ============================================================
@@ -275,6 +288,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "firebase-mcp",
@@ -300,6 +314,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "github-mcp",
@@ -326,6 +341,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "playwright-mcp",
@@ -351,6 +367,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "eslint-mcp",
@@ -376,6 +393,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "stripe-mcp",
@@ -398,6 +416,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "vercel-mcp",
@@ -420,6 +439,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "sentry-mcp",
@@ -442,6 +462,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "linear-mcp",
@@ -464,6 +485,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "optional",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "tailwind-mcp",
@@ -482,6 +504,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "nextjs-mcp",
@@ -502,6 +525,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "dart-flutter-mcp",
@@ -520,6 +544,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "memory-mcp",
@@ -545,6 +570,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "vitest-mcp",
@@ -563,6 +589,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "nrt-assistant",
@@ -581,6 +608,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "figma-mcp",
@@ -599,6 +627,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "optional",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "docker-mcp",
@@ -616,6 +645,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "optional",
     notes: null,
+    activation_hint: null,
   },
 
   // ============================================================
@@ -640,6 +670,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "subagents",
@@ -660,6 +691,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "code-review-plugin",
@@ -679,6 +711,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "claude-flow",
@@ -697,6 +730,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "claude-squad",
@@ -715,6 +749,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "swarm-patterns",
@@ -733,6 +768,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
 
   // ============================================================
@@ -755,6 +791,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "tdd-pattern",
@@ -775,6 +812,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "quinn-qa",
@@ -795,6 +833,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
 
   // ============================================================
@@ -819,6 +858,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "hooks",
@@ -838,6 +878,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "headless",
@@ -856,6 +897,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "auto-format-hook",
@@ -876,6 +918,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "claude-md-templates",
@@ -894,6 +937,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
 
   // ============================================================
@@ -916,6 +960,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "awesome-agent-skills",
@@ -934,6 +979,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "awesome-mcp-servers",
@@ -952,6 +998,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "mcp-registry",
@@ -969,6 +1016,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "skills-sh",
@@ -987,6 +1035,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "agentskill-sh",
@@ -1005,6 +1054,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "skillmatic-awesome",
@@ -1023,6 +1073,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
 
   // ============================================================
@@ -1046,6 +1097,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "openai-codex-cli",
@@ -1064,6 +1116,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "agentskills-spec",
@@ -1082,6 +1135,7 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "recommended",
     notes: null,
+    activation_hint: null,
   },
   {
     slug: "best-practices-blog",
@@ -1100,5 +1154,6 @@ export const SEED_ITEMS: SeedItem[] = [
     platforms: ["claude-code", "codex"],
     priority: "essential",
     notes: null,
+    activation_hint: null,
   },
 ];

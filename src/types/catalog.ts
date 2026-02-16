@@ -40,6 +40,7 @@ export interface CatalogItem {
   platforms: Platform[];
   priority: Priority;
   notes: string | null;
+  activation_hint: string | null;
   last_verified_at: string;
   created_at: string;
   updated_at: string;

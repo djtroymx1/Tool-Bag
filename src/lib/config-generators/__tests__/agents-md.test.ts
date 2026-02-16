@@ -46,4 +46,42 @@ describe("generateAgentsMd", () => {
       "- [Documentation](https://example.com/codex-tool)"
     );
   });
+
+  it("includes Tool Activation Rules section when items have hints", () => {
+    const result = generateAgentsMd([
+      {
+        ...codexOnlyItem,
+        activation_hint: "Run this whenever validating Codex-only workflows.",
+      },
+    ]);
+
+    expect(result).toContain("## Tool Activation Rules");
+    expect(result).toContain("### Codex Tool");
+    expect(result).toContain(
+      "Run this whenever validating Codex-only workflows."
+    );
+  });
+
+  it("includes only items with activation hints in Tool Activation Rules", () => {
+    const result = generateAgentsMd([
+      {
+        ...codexOnlyItem,
+        activation_hint: "Run this whenever validating Codex-only workflows.",
+      },
+      { ...skillItem, activation_hint: null },
+    ]);
+
+    const activationSection = result.split("## Tool Activation Rules")[1];
+    expect(activationSection).toContain("### Codex Tool");
+    expect(activationSection).not.toContain("### Claude Debugs For You");
+  });
+
+  it("omits Tool Activation Rules section when no items have hints", () => {
+    const result = generateAgentsMd([
+      { ...codexOnlyItem, activation_hint: null },
+      { ...skillItem, activation_hint: null },
+    ]);
+
+    expect(result).not.toContain("## Tool Activation Rules");
+  });
 });

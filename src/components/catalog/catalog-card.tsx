@@ -173,6 +173,14 @@ export function CatalogCard({
                 </pre>
               </div>
             )}
+            {item.activation_hint && (
+              <div className="mt-3 pt-3 border-t border-zinc-800">
+                <p className="text-xs font-medium text-zinc-400 mb-1">
+                  Activation Rule
+                </p>
+                <p className="text-sm text-zinc-300">{item.activation_hint}</p>
+              </div>
+            )}
             {mcpConfigText && (
               <div>
                 <div className="flex items-center justify-between mb-1">

@@ -70,4 +70,40 @@ describe("generateClaudeMd", () => {
     const result = generateClaudeMd([skillItem, bookmarkItem]);
     expect(result).not.toContain("## MCP Servers Configuration");
   });
+
+  it("includes Tool Activation Rules section when items have hints", () => {
+    const result = generateClaudeMd([
+      {
+        ...skillItem,
+        activation_hint: "Use this before debugging complex failures.",
+      },
+    ]);
+
+    expect(result).toContain("## Tool Activation Rules");
+    expect(result).toContain("### Claude Debugs For You");
+    expect(result).toContain("Use this before debugging complex failures.");
+  });
+
+  it("includes only items with activation hints in Tool Activation Rules", () => {
+    const result = generateClaudeMd([
+      {
+        ...skillItem,
+        activation_hint: "Use this before debugging complex failures.",
+      },
+      { ...mcpItem, activation_hint: null },
+    ]);
+
+    const activationSection = result.split("## Tool Activation Rules")[1];
+    expect(activationSection).toContain("### Claude Debugs For You");
+    expect(activationSection).not.toContain("### Context7 MCP");
+  });
+
+  it("omits Tool Activation Rules section when no items have hints", () => {
+    const result = generateClaudeMd([
+      { ...skillItem, activation_hint: null },
+      { ...mcpItem, activation_hint: null },
+    ]);
+
+    expect(result).not.toContain("## Tool Activation Rules");
+  });
 });

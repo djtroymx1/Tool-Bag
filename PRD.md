@@ -91,6 +91,7 @@ Key fields:
 - `platforms` (text[]): claude-code, codex, or both
 - `priority` (text): essential, recommended, or optional
 - `notes` (text): Additional context
+- `activation_hint` (text): 1-2 sentence instruction telling the AI agent when and how to use this tool. Included in generated CLAUDE.md and AGENTS.md files.
 - `last_verified_at` (timestamptz): When this entry was last verified as current
 - `created_at` / `updated_at` (timestamptz): Row timestamps
 
@@ -126,6 +127,7 @@ Key fields:
 ### /project/export (Config Export)
 - Platform selector (Claude Code / Codex / Both)
 - Tabbed preview of generated config files
+- Generated CLAUDE.md and AGENTS.md include a "Tool Activation Rules" section with proactive usage instructions for each selected tool
 - Platform-aware: only shows tabs relevant to selected platform
 - Copy-to-clipboard on each config block
 - Download individual files or "Download All as ZIP"
