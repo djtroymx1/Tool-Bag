@@ -190,13 +190,16 @@ export function TooltipTour() {
   // Track tooltip height for viewport-safe placement without reading refs during render
   useEffect(() => {
     if (!active || !visible) return;
-    const tooltipEl = tooltipRef.current;
-    if (!tooltipEl) return;
 
     function syncHeight() {
+      const tooltipEl = tooltipRef.current;
+      if (!tooltipEl) return;
       const nextHeight = tooltipEl.offsetHeight;
       setTooltipHeight((prev) => (prev === nextHeight ? prev : nextHeight));
     }
+
+    const tooltipEl = tooltipRef.current;
+    if (!tooltipEl) return;
 
     syncHeight();
     const observer = new ResizeObserver(syncHeight);
