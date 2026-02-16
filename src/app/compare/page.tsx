@@ -1,8 +1,14 @@
-export default function ComparePage() {
-  return (
-    <div className="text-center py-20">
-      <h1 className="text-2xl font-bold">Compare</h1>
-      <p className="text-sm text-zinc-400 mt-2">Coming in Phase 7</p>
-    </div>
-  );
+import { createServerClient } from "@/lib/supabase/server";
+import { ComparisonTable } from "@/components/compare/comparison-table";
+import type { CatalogItem } from "@/types/catalog";
+
+export default async function ComparePage() {
+  const supabase = createServerClient();
+  const { data: items } = await supabase
+    .from("catalog_items")
+    .select("*")
+    .order("category")
+    .order("name");
+
+  return <ComparisonTable items={(items ?? []) as CatalogItem[]} />;
 }

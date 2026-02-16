@@ -29,4 +29,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Badge components: platform (blue/green/gradient), priority (emerald/sky/zinc), source (amber/violet)
 - Selection system with localStorage persistence and React Context provider
 - Site header with active nav highlighting and selection count badge
-- Placeholder pages for /project, /project/export, /compare
+- Project builder page (/project) with selected items list grouped by category, stats sidebar, clear all, and export navigation
+- Export page (/project/export) with platform-aware config generation
+- Config generators: CLAUDE.md, AGENTS.md, mcp.json, config.toml (pure functions)
+- Platform selector on export (Claude Code / Codex / Both) controls visible tabs
+- Tabbed config preview with syntax display, copy-to-clipboard, and file size indicator
+- ZIP download via JSZip with platform-appropriate file structure
+- Comparison page (/compare) with cross-platform reference table (11 concept rows)
+- Sortable full catalog table with all 55 items (sort by name, category, priority, source)
+- Custom 404 page with back-to-catalog navigation
