@@ -39,6 +39,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Sortable full catalog table with all 55 items (sort by name, category, priority, source)
 - Custom 404 page with back-to-catalog navigation
 - Deployed to Vercel at https://toolbag-sigma.vercel.app
+- Expandable "What are Agent Skills & Tools?" explainer section on catalog page with 5 content sections, localStorage-persisted collapse state, smooth transitions, and "Got it" dismiss button
+- Site footer with "Catalog last updated: February 2026 · Actively maintained by Digital VisionWorks LLC" on every page
+- Vitest unit tests (30 tests) for all 4 config generators
 
 ### Changed
 - Renamed project from "Codex Catalog" to "Tool Bag" across all references

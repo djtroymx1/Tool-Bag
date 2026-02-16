@@ -1,6 +1,7 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { searchParamsCache } from "@/lib/search-params";
 import { CatalogShell } from "@/components/catalog/catalog-shell";
+import { EcosystemExplainer } from "@/components/catalog/ecosystem-explainer";
 import type { SearchParams } from "nuqs/server";
 import type { CatalogItem } from "@/types/catalog";
 
@@ -42,9 +43,12 @@ export default async function CatalogPage({
   const { data: filteredItems } = await query.order("name");
 
   return (
-    <CatalogShell
-      initialItems={(filteredItems ?? []) as CatalogItem[]}
-      allItems={(allItems ?? []) as CatalogItem[]}
-    />
+    <div className="flex flex-col gap-6">
+      <EcosystemExplainer />
+      <CatalogShell
+        initialItems={(filteredItems ?? []) as CatalogItem[]}
+        allItems={(allItems ?? []) as CatalogItem[]}
+      />
+    </div>
   );
 }
