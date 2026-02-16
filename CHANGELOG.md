@@ -38,7 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Comparison page (/compare) with cross-platform reference table (11 concept rows)
 - Sortable full catalog table with all 55 items (sort by name, category, priority, source)
 - Custom 404 page with back-to-catalog navigation
-- Deployed to Vercel at https://toolbag-omega.vercel.app
+- Deployed to Vercel at https://toolbag-sigma.vercel.app
 
 ### Changed
 - Renamed project from "Codex Catalog" to "Tool Bag" across all references
