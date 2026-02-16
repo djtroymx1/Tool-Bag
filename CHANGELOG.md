@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+- Custom domain configured: app now accessible at https://toolbag.digitalvisionworks.com (subdomain of digitalvisionworks.com via Namecheap CNAME to Vercel)
+- Updated all project documentation to reference new custom domain URL
+
 ### Added
 - Hero intro section on catalog page with headline, subtext, and 3 icon callouts (Browse & Filter, Select for Project, Export Config); dismissible with localStorage persistence
 - First-visit tooltip tour (4 steps) highlighting platform toggle, category tabs, card selection, and project navigation; spotlight overlay with SVG mask, skip/replay support, localStorage persistence
@@ -47,9 +51,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Comparison page (/compare) with cross-platform reference table (11 concept rows)
 - Sortable full catalog table with all 55 items (sort by name, category, priority, source)
 - Custom 404 page with back-to-catalog navigation
-- Deployed to Vercel at https://toolbag-sigma.vercel.app
+- Deployed to Vercel at https://toolbag.digitalvisionworks.com
 - Expandable "What are Agent Skills & Tools?" explainer section on catalog page with 5 content sections, localStorage-persisted collapse state, smooth transitions, and "Got it" dismiss button
-- Site footer with "Catalog last updated: February 2026 · Actively maintained by Digital VisionWorks LLC" on every page
+- Site footer with "Catalog last updated: February 2026 Â· Actively maintained by Digital VisionWorks LLC" on every page
 - Vitest unit tests (30 tests) for all 4 config generators
 - Playwright end-to-end coverage for catalog filtering/interaction and project export flow
 
