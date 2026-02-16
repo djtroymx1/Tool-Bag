@@ -1,8 +1,14 @@
-export default function ExportPage() {
-  return (
-    <div className="text-center py-20">
-      <h1 className="text-2xl font-bold">Export Config</h1>
-      <p className="text-sm text-zinc-400 mt-2">Coming in Phase 6</p>
-    </div>
-  );
+import { createServerClient } from "@/lib/supabase/server";
+import { ExportShell } from "@/components/export/export-shell";
+import type { CatalogItem } from "@/types/catalog";
+
+export default async function ExportPage() {
+  const supabase = createServerClient();
+  const { data: allItems } = await supabase
+    .from("catalog_items")
+    .select("*")
+    .order("category")
+    .order("name");
+
+  return <ExportShell allItems={(allItems ?? []) as CatalogItem[]} />;
 }
