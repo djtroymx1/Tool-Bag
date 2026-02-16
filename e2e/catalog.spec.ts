@@ -66,6 +66,43 @@ test("category tabs and platform toggle update filters", async ({ page }) => {
     .toBe("codex");
 });
 
+test("platform toggle updates visible install instructions", async ({ page }) => {
+  await page.goto("/");
+
+  const firstCard = page.locator("[data-testid='catalog-card']").first();
+  const expandButton = firstCard.getByTestId("catalog-card-expand");
+  await expandButton.evaluate((el) => (el as HTMLButtonElement).click());
+
+  const expandedContent = firstCard.getByTestId("catalog-card-expanded");
+  await expect(
+    expandedContent.getByText("Claude Code", { exact: true })
+  ).toBeVisible();
+  await expect(
+    expandedContent.getByText("Codex", { exact: true })
+  ).toBeVisible();
+
+  const platformToggle = page.getByTestId("platform-toggle");
+  await platformToggle
+    .getByText("Codex", { exact: true })
+    .evaluate((el) => (el as HTMLButtonElement).click());
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get("platform"))
+    .toBe("codex");
+
+  const codexCard = page.locator("[data-testid='catalog-card']").first();
+  await codexCard
+    .getByTestId("catalog-card-expand")
+    .evaluate((el) => (el as HTMLButtonElement).click());
+
+  const codexExpandedContent = codexCard.getByTestId("catalog-card-expanded");
+  await expect(
+    codexExpandedContent.getByText("Codex", { exact: true })
+  ).toBeVisible();
+  await expect(
+    codexExpandedContent.getByText("Claude Code", { exact: true })
+  ).toHaveCount(0);
+});
+
 test("catalog card expands on click", async ({ page }) => {
   await page.goto("/");
 

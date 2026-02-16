@@ -7,9 +7,11 @@ import type { CatalogItem } from "@/types/catalog";
 export function CatalogGrid({
   items,
   onClearFilters,
+  activePlatform,
 }: {
   items: CatalogItem[];
   onClearFilters: () => void;
+  activePlatform: "claude-code" | "codex" | "both";
 }) {
   const { isSelected, toggle } = useSelectionContext();
 
@@ -40,6 +42,7 @@ export function CatalogGrid({
           item={item}
           isSelected={isSelected(item.id)}
           onToggle={() => toggle(item.id)}
+          activePlatform={activePlatform}
         />
       ))}
     </div>

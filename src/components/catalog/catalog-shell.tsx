@@ -21,14 +21,28 @@ export function CatalogShell({
   });
 
   const hasFilters =
+    filters.platform !== "both" ||
     filters.priority !== "" ||
     filters.source !== "" ||
     filters.q !== "" ||
     filters.category !== "";
 
   function clearAllFilters() {
-    setFilters({ priority: "", source: "", q: "", category: "" });
+    setFilters({
+      platform: "both",
+      priority: "",
+      source: "",
+      q: "",
+      category: "",
+    });
   }
+
+  const platformLabel =
+    filters.platform === "both"
+      ? "Both"
+      : filters.platform === "claude-code"
+        ? "Claude Code"
+        : "Codex";
 
   return (
     <div className="flex flex-col gap-6">
@@ -64,11 +78,15 @@ export function CatalogShell({
       {/* Results count */}
       <div className="text-xs text-zinc-500" role="status" aria-live="polite">
         Showing {initialItems.length} of {allItems.length} tool
-        {allItems.length !== 1 ? "s" : ""}
+        {allItems.length !== 1 ? "s" : ""} for {platformLabel}
       </div>
 
       {/* Card grid */}
-      <CatalogGrid items={initialItems} onClearFilters={clearAllFilters} />
+      <CatalogGrid
+        items={initialItems}
+        onClearFilters={clearAllFilters}
+        activePlatform={filters.platform}
+      />
     </div>
   );
 }

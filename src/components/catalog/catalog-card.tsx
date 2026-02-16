@@ -22,12 +22,29 @@ export function CatalogCard({
   item,
   isSelected,
   onToggle,
+  activePlatform,
 }: {
   item: CatalogItem;
   isSelected: boolean;
   onToggle: () => void;
+  activePlatform: "claude-code" | "codex" | "both";
 }) {
   const [expanded, setExpanded] = useState(false);
+  const showClaudeInstructions =
+    activePlatform === "both" || activePlatform === "claude-code";
+  const showCodexInstructions =
+    activePlatform === "both" || activePlatform === "codex";
+  const mcpConfig =
+    activePlatform === "codex"
+      ? item.mcp_config_codex ?? item.mcp_config_claude
+      : item.mcp_config_claude;
+  const mcpConfigText = mcpConfig ? JSON.stringify(mcpConfig, null, 2) : null;
+  const mcpLabel =
+    activePlatform === "codex"
+      ? "MCP Config (Codex)"
+      : activePlatform === "claude-code"
+        ? "MCP Config (Claude Code)"
+        : "MCP Config";
 
   return (
     <Card
@@ -130,7 +147,7 @@ export function CatalogCard({
       >
         <div className="overflow-hidden" data-testid="catalog-card-expanded">
           <div className="flex flex-col gap-3 pt-2 border-t border-zinc-800">
-            {item.claude_code_install && (
+            {showClaudeInstructions && item.claude_code_install && (
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-[10px] font-medium text-blue-400 uppercase tracking-wider">
@@ -143,7 +160,7 @@ export function CatalogCard({
                 </pre>
               </div>
             )}
-            {item.codex_install && (
+            {showCodexInstructions && item.codex_install && (
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-[10px] font-medium text-emerald-400 uppercase tracking-wider">
@@ -156,18 +173,16 @@ export function CatalogCard({
                 </pre>
               </div>
             )}
-            {item.mcp_config_claude && (
+            {mcpConfigText && (
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-[10px] font-medium text-zinc-400 uppercase tracking-wider">
-                    MCP Config
+                    {mcpLabel}
                   </span>
-                  <CopyButton
-                    text={JSON.stringify(item.mcp_config_claude, null, 2)}
-                  />
+                  <CopyButton text={mcpConfigText} />
                 </div>
                 <pre className="rounded-md bg-zinc-950/80 border border-zinc-800 p-2 text-xs font-mono text-emerald-400 overflow-x-auto">
-                  {JSON.stringify(item.mcp_config_claude, null, 2)}
+                  {mcpConfigText}
                 </pre>
               </div>
             )}
