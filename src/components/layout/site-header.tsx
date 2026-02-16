@@ -24,7 +24,7 @@ export function SiteHeader() {
             <Layers className="h-4 w-4 text-zinc-300" />
           </div>
           <span className="text-sm font-semibold tracking-tight">
-            Codex Catalog
+            Tool Bag
           </span>
         </Link>
 

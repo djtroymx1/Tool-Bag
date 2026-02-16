@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Codex Catalog — Claude Code & Codex Ecosystem Tools",
+  title: "Tool Bag — Claude Code & Codex Ecosystem Tools",
   description:
     "Browse, select, and export configuration files for the Claude Code and OpenAI Codex ecosystem. Skills, MCP servers, multi-agent tools, and more.",
 };

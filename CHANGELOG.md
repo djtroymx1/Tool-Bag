@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Dark theme with zinc-950 background, zinc-900 cards, zinc-800 borders (OKLCH color space)
 - Supabase client setup (server + browser) with @supabase/ssr
 - nuqs adapter for type-safe URL search params
-- Created Supabase project "codex-catalog" (us-east-1)
+- Created Supabase project "tool-bag" (us-east-1)
 - Project directory structure for all planned components
 - Database schema: catalog_items (55 items, 7 categories) and project_templates tables with RLS
 - Seeded all 55 catalog items across Skills & Plugins, MCP Servers, Multi-Agent, Testing & QA, Workflow & CI/CD, Curated Lists, Official Anthropic
@@ -38,3 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Comparison page (/compare) with cross-platform reference table (11 concept rows)
 - Sortable full catalog table with all 55 items (sort by name, category, priority, source)
 - Custom 404 page with back-to-catalog navigation
+- Deployed to Vercel at https://toolbag-omega.vercel.app
+
+### Changed
+- Renamed project from "Codex Catalog" to "Tool Bag" across all references

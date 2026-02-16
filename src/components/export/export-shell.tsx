@@ -72,7 +72,7 @@ export function ExportShell({ allItems }: { allItems: CatalogItem[] }) {
       files["AGENTS.md"] = configs.agentsMd;
       files[".codex/config.toml"] = configs.configToml;
     }
-    await downloadProjectZip(files, "codex-catalog");
+    await downloadProjectZip(files, "tool-bag");
   }
 
   const defaultTab = showClaude ? "claude-md" : "agents-md";

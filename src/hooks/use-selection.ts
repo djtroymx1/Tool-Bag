@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_KEY = "codex-catalog-selection";
+const STORAGE_KEY = "tool-bag-selection";
 
 export function useSelection() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
