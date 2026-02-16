@@ -47,8 +47,8 @@ function getTargetRect(testId: string): TargetRect | null {
   if (!el) return null;
   const rect = el.getBoundingClientRect();
   return {
-    top: rect.top + window.scrollY,
-    left: rect.left + window.scrollX,
+    top: rect.top,
+    left: rect.left,
     width: rect.width,
     height: rect.height,
   };
@@ -65,6 +65,7 @@ export function TooltipTour() {
   const [currentStep, setCurrentStep] = useState(0);
   const [targetRect, setTargetRect] = useState<TargetRect | null>(null);
   const [visible, setVisible] = useState(false);
+  const [tooltipHeight, setTooltipHeight] = useState(176);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const nextButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -138,6 +139,26 @@ export function TooltipTour() {
     return () => window.removeEventListener("resize", handleResize);
   }, [active, updatePosition]);
 
+  // Reposition on page/viewport movement (especially on mobile browser UI changes)
+  useEffect(() => {
+    if (!active) return;
+
+    function handleViewportChange() {
+      updatePosition();
+    }
+
+    window.addEventListener("scroll", handleViewportChange, { passive: true });
+    const visualViewport = window.visualViewport;
+    visualViewport?.addEventListener("resize", handleViewportChange);
+    visualViewport?.addEventListener("scroll", handleViewportChange);
+
+    return () => {
+      window.removeEventListener("scroll", handleViewportChange);
+      visualViewport?.removeEventListener("resize", handleViewportChange);
+      visualViewport?.removeEventListener("scroll", handleViewportChange);
+    };
+  }, [active, updatePosition]);
+
   const completeTour = useCallback(() => {
     setActive(false);
     setVisible(false);
@@ -164,6 +185,23 @@ export function TooltipTour() {
   useEffect(() => {
     if (!active || !visible) return;
     nextButtonRef.current?.focus();
+  }, [active, currentStep, visible]);
+
+  // Track tooltip height for viewport-safe placement without reading refs during render
+  useEffect(() => {
+    if (!active || !visible) return;
+    const tooltipEl = tooltipRef.current;
+    if (!tooltipEl) return;
+
+    function syncHeight() {
+      const nextHeight = tooltipEl.offsetHeight;
+      setTooltipHeight((prev) => (prev === nextHeight ? prev : nextHeight));
+    }
+
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(tooltipEl);
+    return () => observer.disconnect();
   }, [active, currentStep, visible]);
 
   // Keep keyboard interaction scoped to the tooltip while active
@@ -217,23 +255,63 @@ export function TooltipTour() {
 
   if (!hydrated || !active || !targetRect) return null;
 
-  // Calculate tooltip position (below or above target)
+  // Calculate viewport-safe spotlight + tooltip placement
   const pad = 6;
+  const viewportMargin = 12;
+  const visualViewport = window.visualViewport;
+  const viewportWidth = visualViewport?.width ?? window.innerWidth;
+  const viewportHeight = visualViewport?.height ?? window.innerHeight;
+  const viewportOffsetLeft = visualViewport?.offsetLeft ?? 0;
+  const viewportOffsetTop = visualViewport?.offsetTop ?? 0;
+  const viewportRight = viewportOffsetLeft + viewportWidth;
+  const viewportBottom = viewportOffsetTop + viewportHeight;
+  const tooltipWidth = Math.min(
+    320,
+    Math.max(220, viewportWidth - viewportMargin * 2)
+  );
+  const gap = 12;
+
+  const availableBelow =
+    viewportBottom - (targetRect.top + targetRect.height + gap + viewportMargin);
+  const availableAbove =
+    targetRect.top - (viewportOffsetTop + gap + viewportMargin);
+  const renderAbove = availableBelow < tooltipHeight && availableAbove > availableBelow;
+
+  const unclampedTop = renderAbove
+    ? targetRect.top - tooltipHeight - gap
+    : targetRect.top + targetRect.height + gap;
+  const minTop = viewportOffsetTop + viewportMargin;
+  const maxTop = viewportBottom - tooltipHeight - viewportMargin;
+  const tooltipTop = Math.max(
+    minTop,
+    Math.min(unclampedTop, maxTop)
+  );
+  const minLeft = viewportOffsetLeft + viewportMargin;
+  const maxLeft = viewportRight - tooltipWidth - viewportMargin;
+  const tooltipLeft = Math.max(
+    minLeft,
+    Math.min(targetRect.left, maxLeft)
+  );
+  const tooltipMaxHeight = Math.max(
+    140,
+    Math.min(
+      renderAbove ? availableAbove : availableBelow,
+      viewportHeight - viewportMargin * 2
+    )
+  );
+
+  const targetCenter = targetRect.left + targetRect.width / 2;
+  const arrowLeft = Math.max(
+    14,
+    Math.min(targetCenter - tooltipLeft - 6, tooltipWidth - 26)
+  );
+
   const spotlightRect = {
-    x: targetRect.left - pad,
-    y: targetRect.top - pad,
+    x: Math.max(0, targetRect.left - pad),
+    y: Math.max(0, targetRect.top - pad),
     w: targetRect.width + pad * 2,
     h: targetRect.height + pad * 2,
   };
-
-  const tooltipTop = targetRect.top + targetRect.height + pad + 12;
-  const tooltipLeft = Math.max(
-    16,
-    Math.min(
-      targetRect.left,
-      (typeof window !== "undefined" ? window.innerWidth : 1440) - 320
-    )
-  );
 
   return createPortal(
     <div className="fixed inset-0 z-[9998]" style={{ pointerEvents: "none" }}>
@@ -243,14 +321,8 @@ export function TooltipTour() {
         aria-hidden="true"
         style={{
           pointerEvents: "auto",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: `${Math.max(
-            document.documentElement.scrollHeight,
-            window.innerHeight
-          )}px`,
+          width: "100%",
+          height: "100%",
         }}
         onClick={handleNext}
       >
@@ -282,10 +354,12 @@ export function TooltipTour() {
         aria-modal="true"
         aria-label={`Onboarding tour step ${currentStep + 1} of ${STEPS.length}`}
         tabIndex={-1}
-        className="fixed z-[9999] max-w-xs"
+        className="fixed z-[9999]"
         style={{
           top: `${tooltipTop}px`,
           left: `${tooltipLeft}px`,
+          width: `${tooltipWidth}px`,
+          maxHeight: `${tooltipMaxHeight}px`,
           pointerEvents: "auto",
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(4px)",
@@ -294,15 +368,23 @@ export function TooltipTour() {
       >
         {/* Arrow */}
         <div
-          className="absolute -top-1.5 left-6 h-3 w-3 rotate-45 bg-zinc-800 border-l border-t border-zinc-700"
+          className={`absolute h-3 w-3 rotate-45 bg-zinc-800 border-zinc-700 ${
+            renderAbove
+              ? "-bottom-1.5 border-r border-b"
+              : "-top-1.5 border-l border-t"
+          }`}
+          style={{ left: `${arrowLeft}px` }}
         />
 
-        <div className="relative bg-zinc-800 border border-zinc-700 rounded-lg shadow-xl p-3">
-          <p className="text-xs text-zinc-500 mb-1">
+        <div
+          className="relative overflow-y-auto rounded-lg border border-zinc-700 bg-zinc-800 p-3 shadow-xl"
+          style={{ maxHeight: "100%" }}
+        >
+          <p className="mb-1 text-xs text-zinc-500">
             Step {currentStep + 1} of {STEPS.length}
           </p>
           <p className="text-sm text-zinc-200">{step.text}</p>
-          <div className="flex items-center justify-between mt-3">
+          <div className="mt-3 flex items-center justify-between border-t border-zinc-700/60 pt-3">
             <button
               type="button"
               onClick={handleSkip}
