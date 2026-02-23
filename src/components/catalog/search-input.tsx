@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type RefObject } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 export function SearchInput({
   value,
   onChange,
+  inputRef,
 }: {
   value: string;
   onChange: (v: string) => void;
+  inputRef?: RefObject<HTMLInputElement | null>;
 }) {
   const [local, setLocal] = useState(value);
 
@@ -28,7 +30,8 @@ export function SearchInput({
     <div className="relative w-full sm:w-80">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
       <Input
-        placeholder="Search tools..."
+        ref={inputRef}
+        placeholder="Search tools... (⌘K)"
         value={local}
         onChange={(e) => setLocal(e.target.value)}
         className="pl-9 bg-zinc-900 border-zinc-800 h-9 text-sm"

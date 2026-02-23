@@ -53,6 +53,15 @@ export function useSelection() {
     });
   }, []);
 
+  const add = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+  }, []);
+
   const remove = useCallback((id: string) => {
     setSelectedIds((prev) => {
       const next = new Set(prev);
@@ -74,6 +83,7 @@ export function useSelection() {
 
   return {
     selectedIds,
+    add,
     toggle,
     remove,
     clear,

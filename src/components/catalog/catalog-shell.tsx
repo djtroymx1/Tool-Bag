@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useSyncExternalStore, useCallback, useEffect } from "react";
+import {
+  useState,
+  useSyncExternalStore,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { useQueryStates } from "nuqs";
 import { catalogSearchParams } from "@/lib/search-params";
+import { useSelectionContext } from "@/components/providers/selection-provider";
 import { PlatformToggle } from "./platform-toggle";
 import { SearchInput } from "./search-input";
 import { CategoryTabs } from "./category-tabs";
@@ -56,12 +63,98 @@ export function CatalogShell({
   });
   const { mode: viewMode, setViewMode } = useViewMode();
   const [drawerItem, setDrawerItem] = useState<CatalogItem | null>(null);
+  const [focusIndex, setFocusIndex] = useState(-1);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const { toggle } = useSelectionContext();
 
   function handleViewDetails(item: CatalogItem) {
     // On mobile (< 1024px), don't open drawer — card expands inline instead
     if (typeof window !== "undefined" && window.innerWidth < 1024) return;
     setDrawerItem(item);
   }
+
+  // Keyboard navigation
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      const target = e.target as HTMLElement;
+      const isInput =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable;
+
+      // Cmd+K or / → focus search (unless typing in input)
+      if (
+        (e.key === "/" && !isInput) ||
+        ((e.metaKey || e.ctrlKey) && e.key === "k")
+      ) {
+        e.preventDefault();
+        searchRef.current?.focus();
+        return;
+      }
+
+      // Escape → close drawer or blur search
+      if (e.key === "Escape") {
+        if (drawerItem) {
+          setDrawerItem(null);
+        } else if (isInput) {
+          (target as HTMLElement).blur();
+        }
+        return;
+      }
+
+      // j/k/x/Enter only work when not in an input
+      if (isInput) return;
+
+      if (e.key === "j") {
+        e.preventDefault();
+        setFocusIndex((prev) =>
+          prev < initialItems.length - 1 ? prev + 1 : prev
+        );
+      } else if (e.key === "k") {
+        e.preventDefault();
+        setFocusIndex((prev) => (prev > 0 ? prev - 1 : 0));
+      } else if (e.key === "x" && focusIndex >= 0) {
+        e.preventDefault();
+        const item = initialItems[focusIndex];
+        if (item) toggle(item.id);
+      } else if (e.key === "Enter" && focusIndex >= 0) {
+        e.preventDefault();
+        const item = initialItems[focusIndex];
+        if (item) handleViewDetails(item);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [drawerItem, focusIndex, initialItems, toggle]);
+
+  // Scroll focused item into view
+  useEffect(() => {
+    if (focusIndex < 0) return;
+    const selector =
+      viewMode === "list"
+        ? `[data-testid="catalog-list-row"]`
+        : `[data-testid="catalog-card"]`;
+    const elements = document.querySelectorAll(selector);
+    const el = elements[focusIndex];
+    if (el) {
+      el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      (el as HTMLElement).classList.add("ring-2", "ring-emerald-500/50");
+      // Remove ring from previous
+      elements.forEach((other, i) => {
+        if (i !== focusIndex)
+          (other as HTMLElement).classList.remove(
+            "ring-2",
+            "ring-emerald-500/50"
+          );
+      });
+    }
+  }, [focusIndex, viewMode]);
+
+  // Reset focus index when filtered items change
+  const itemsKey = initialItems.map((i) => i.id).join(",");
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setFocusIndex(-1); }, [itemsKey]);
 
   const hasFilters =
     filters.platform !== "both" ||
@@ -100,6 +193,7 @@ export function CatalogShell({
         <SearchInput
           value={filters.q}
           onChange={(v) => setFilters({ q: v || "" })}
+          inputRef={searchRef}
         />
       </div>
 

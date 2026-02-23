@@ -1,10 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { FileText, Wand2, ClipboardCopy, ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  FileText,
+  Wand2,
+  ClipboardCopy,
+  ChevronDown,
+  Rocket,
+  Server,
+  Shield,
+  Zap,
+  GitBranch,
+} from "lucide-react";
 import { DocumentInput } from "./document-input";
 import { DocumentBuilder } from "./document-builder";
 import { RecommendationResults } from "./recommendation-results";
+import { STARTER_KITS } from "@/data/starter-kits";
+import { useSelectionContext } from "@/components/providers/selection-provider";
 import type { CatalogItem } from "@/types/catalog";
 
 type Step = "choose" | "paste" | "build" | "loading" | "results";
@@ -52,11 +65,21 @@ const PROMPT_TEMPLATE = `# Project Requirements Document
 - Priority: [Speed / Quality / Learning]
 `;
 
+const KIT_ICONS: Record<string, React.ElementType> = {
+  Rocket,
+  Server,
+  Shield,
+  Zap,
+  GitBranch,
+};
+
 export function RecommendShell({
   allItems,
 }: {
   allItems: CatalogItem[];
 }) {
+  const router = useRouter();
+  const { add } = useSelectionContext();
   const [step, setStep] = useState<Step>("choose");
   const [platform, setPlatform] = useState<"claude-code" | "codex" | "both">(
     "both"
@@ -64,6 +87,15 @@ export function RecommendShell({
   const [results, setResults] = useState<RecommendationResponse | null>(null);
   const [templateExpanded, setTemplateExpanded] = useState(false);
   const [templateCopied, setTemplateCopied] = useState(false);
+
+  function applyStarterKit(slugs: string[]) {
+    // Resolve slugs to item IDs and add them
+    for (const slug of slugs) {
+      const item = allItems.find((i) => i.slug === slug);
+      if (item) add(item.id);
+    }
+    router.push("/project/export");
+  }
 
   async function handleDocumentSubmit(document: string, selectedPlatform: string) {
     setPlatform(selectedPlatform as "claude-code" | "codex" | "both");
@@ -159,6 +191,40 @@ export function RecommendShell({
                 </p>
               </div>
             </button>
+          </div>
+
+          {/* Starter Kits — quick start */}
+          <div>
+            <h2 className="text-sm font-semibold text-zinc-200 mb-3">
+              Quick Start Kits
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {STARTER_KITS.map((kit) => {
+                const Icon = KIT_ICONS[kit.icon] ?? Zap;
+                return (
+                  <button
+                    key={kit.id}
+                    onClick={() => applyStarterKit(kit.slugs)}
+                    className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-900/60 p-4 text-left transition-all hover:border-zinc-700 hover:bg-zinc-900/80 group"
+                  >
+                    <div className="rounded-md bg-zinc-800 p-2 text-zinc-400 group-hover:text-zinc-200 transition-colors shrink-0">
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-xs font-semibold text-zinc-200 group-hover:text-zinc-100">
+                        {kit.name}
+                      </h3>
+                      <p className="mt-0.5 text-[11px] text-zinc-500 line-clamp-2">
+                        {kit.description}
+                      </p>
+                      <span className="mt-1 text-[10px] text-zinc-600">
+                        {kit.slugs.length} tools
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Collapsible prompt template */}
