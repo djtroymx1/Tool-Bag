@@ -18,18 +18,38 @@ const LEFT_BORDER: Record<Priority, string> = {
   optional: "",
 };
 
+const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000;
+
+function getRecencyBadge(item: CatalogItem): "new" | "updated" | null {
+  const now = Date.now();
+  const created = new Date(item.created_at).getTime();
+  const updated = new Date(item.updated_at).getTime();
+  if (now - created < FOURTEEN_DAYS) return "new";
+  if (now - updated < FOURTEEN_DAYS && updated !== created) return "updated";
+  return null;
+}
+
 export function CatalogCard({
   item,
   isSelected,
   onToggle,
   activePlatform,
+  onStackFilter,
+  onPriorityFilter,
+  onSourceFilter,
+  onViewDetails,
 }: {
   item: CatalogItem;
   isSelected: boolean;
   onToggle: () => void;
   activePlatform: "claude-code" | "codex" | "both";
+  onStackFilter?: (stack: string) => void;
+  onPriorityFilter?: (priority: string) => void;
+  onSourceFilter?: (source: string) => void;
+  onViewDetails?: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const recencyBadge = getRecencyBadge(item);
   const showClaudeInstructions =
     activePlatform === "both" || activePlatform === "claude-code";
   const showCodexInstructions =
@@ -70,9 +90,17 @@ export function CatalogCard({
             <div className="flex items-center gap-2 flex-wrap">
               <h3
                 data-testid="catalog-card-title"
-                className="text-sm font-semibold text-zinc-100 leading-tight"
+                className="text-sm font-semibold leading-tight"
               >
-                {item.name}
+                <button
+                  type="button"
+                  data-testid="catalog-card-title-button"
+                  aria-expanded={expanded}
+                  onClick={() => setExpanded(!expanded)}
+                  className="text-zinc-100 hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                >
+                  {item.name}
+                </button>
               </h3>
               {item.stars !== "--" && (
                 <span className="flex items-center gap-0.5 text-xs text-zinc-500">
@@ -80,10 +108,24 @@ export function CatalogCard({
                   {item.stars}
                 </span>
               )}
+              {recencyBadge && (
+                <Badge
+                  variant="outline"
+                  className="text-[10px] px-1.5 py-0 h-5 bg-amber-500/15 text-amber-400 border-amber-500/25"
+                >
+                  {recencyBadge === "new" ? "New" : "Updated"}
+                </Badge>
+              )}
             </div>
             <div className="flex items-center gap-1.5 flex-wrap">
-              <PriorityBadge priority={item.priority} />
-              <SourceBadge source={item.source} />
+              <PriorityBadge
+                priority={item.priority}
+                onClick={onPriorityFilter ? () => onPriorityFilter(item.priority) : undefined}
+              />
+              <SourceBadge
+                source={item.source}
+                onClick={onSourceFilter ? () => onSourceFilter(item.source) : undefined}
+              />
               <PlatformBadge platforms={item.platforms} />
             </div>
           </div>
@@ -111,7 +153,12 @@ export function CatalogCard({
             <Badge
               key={s}
               variant="outline"
-              className="text-[10px] px-1.5 py-0 h-5 bg-zinc-800/60 text-zinc-400 border-zinc-700/50"
+              className={cn(
+                "text-[10px] px-1.5 py-0 h-5 bg-zinc-800/60 text-zinc-400 border-zinc-700/50",
+                onStackFilter && "cursor-pointer hover:ring-1 hover:ring-emerald-500/50 hover:text-zinc-200 transition-all"
+              )}
+              onClick={onStackFilter ? (e: React.MouseEvent) => { e.stopPropagation(); onStackFilter(s); } : undefined}
+              role={onStackFilter ? "button" : undefined}
             >
               {s}
             </Badge>
@@ -194,6 +241,29 @@ export function CatalogCard({
                 </pre>
               </div>
             )}
+            {/* Action links */}
+            <div className="flex items-center gap-2 mt-2">
+              {onViewDetails && (
+                <button
+                  type="button"
+                  onClick={onViewDetails}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md bg-emerald-600/20 border border-emerald-600/30 text-emerald-400 hover:bg-emerald-600/30 transition-colors"
+                  data-testid="catalog-card-details"
+                >
+                  Details
+                </button>
+              )}
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition-colors"
+                data-testid="catalog-card-view-source"
+              >
+                <ExternalLink className="h-3 w-3" />
+                View Source
+              </a>
+            </div>
           </div>
         </div>
       </div>

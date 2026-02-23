@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import type { Priority } from "@/types/catalog";
 
 const STYLES: Record<Priority, string> = {
@@ -7,9 +8,28 @@ const STYLES: Record<Priority, string> = {
   optional: "bg-zinc-500/15 text-zinc-400 border-zinc-600/25",
 };
 
-export function PriorityBadge({ priority }: { priority: Priority }) {
+export function PriorityBadge({
+  priority,
+  onClick,
+}: {
+  priority: Priority;
+  onClick?: () => void;
+}) {
+  function handleClick(e: React.MouseEvent) {
+    e.stopPropagation();
+    onClick?.();
+  }
+
   return (
-    <Badge variant="outline" className={`${STYLES[priority]} rounded-md px-2 py-0.5 text-xs font-medium capitalize`}>
+    <Badge
+      variant="outline"
+      className={cn(
+        `${STYLES[priority]} rounded-md px-2 py-0.5 text-xs font-medium capitalize`,
+        onClick && "cursor-pointer hover:ring-1 hover:ring-emerald-500/50 transition-shadow"
+      )}
+      onClick={onClick ? handleClick : undefined}
+      role={onClick ? "button" : undefined}
+    >
       {priority}
     </Badge>
   );

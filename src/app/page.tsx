@@ -37,6 +37,9 @@ export default async function CatalogPage({
   if (params.source) {
     query = query.eq("source", params.source);
   }
+  if (params.stack) {
+    query = query.contains("stack", [params.stack]);
+  }
   if (sanitizedQuery) {
     query = query.or(
       `name.ilike.%${sanitizedQuery}%,description.ilike.%${sanitizedQuery}%`

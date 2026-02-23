@@ -3,13 +3,14 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Layers, GitCompare, FolderOpen, HelpCircle } from "lucide-react";
+import { Layers, GitCompare, FolderOpen, HelpCircle, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSelectionContext } from "@/components/providers/selection-provider";
 
 const NAV_ITEMS = [
   { href: "/", label: "Catalog", icon: Layers },
   { href: "/compare", label: "Compare", icon: GitCompare },
+  { href: "/recommend", label: "Recommend", icon: Sparkles },
   { href: "/project", label: "Project", icon: FolderOpen },
 ];
 
