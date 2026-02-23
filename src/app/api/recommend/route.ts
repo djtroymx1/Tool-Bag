@@ -157,7 +157,7 @@ Rules:
 - Only recommend tools from the catalog`;
 
   const message = await client.messages.create({
-    model: "claude-opus-4-0-20250601",
+    model: "claude-opus-4-6",
     max_tokens: 2048,
     messages: [
       {
