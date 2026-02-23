@@ -18,6 +18,17 @@ const LEFT_BORDER: Record<Priority, string> = {
   optional: "",
 };
 
+const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000;
+
+function getRecencyBadge(item: CatalogItem): "new" | "updated" | null {
+  const now = Date.now();
+  const created = new Date(item.created_at).getTime();
+  const updated = new Date(item.updated_at).getTime();
+  if (now - created < FOURTEEN_DAYS) return "new";
+  if (now - updated < FOURTEEN_DAYS && updated !== created) return "updated";
+  return null;
+}
+
 export function CatalogCard({
   item,
   isSelected,
@@ -36,6 +47,7 @@ export function CatalogCard({
   onSourceFilter?: (source: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const recencyBadge = getRecencyBadge(item);
   const showClaudeInstructions =
     activePlatform === "both" || activePlatform === "claude-code";
   const showCodexInstructions =
@@ -93,6 +105,14 @@ export function CatalogCard({
                   <Star className="h-3 w-3" />
                   {item.stars}
                 </span>
+              )}
+              {recencyBadge && (
+                <Badge
+                  variant="outline"
+                  className="text-[10px] px-1.5 py-0 h-5 bg-amber-500/15 text-amber-400 border-amber-500/25"
+                >
+                  {recencyBadge === "new" ? "New" : "Updated"}
+                </Badge>
               )}
             </div>
             <div className="flex items-center gap-1.5 flex-wrap">

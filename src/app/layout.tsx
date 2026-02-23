@@ -6,6 +6,7 @@ import { SelectionProvider } from "@/components/providers/selection-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { TooltipTour } from "@/components/onboarding/tooltip-tour";
+import { SelectionBar } from "@/components/catalog/selection-bar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -66,6 +67,7 @@ export default function RootLayout({
                 {children}
               </main>
               <SiteFooter />
+              <SelectionBar />
               <TooltipTour />
             </SelectionProvider>
           </TooltipProvider>

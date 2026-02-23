@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { PriorityBadge } from "@/components/shared/priority-badge";
 import { PlatformBadge } from "@/components/shared/platform-badge";
@@ -11,6 +11,58 @@ import type { CatalogItem } from "@/types/catalog";
 
 type SortKey = "name" | "category" | "priority" | "source";
 type SortDir = "asc" | "desc";
+
+function ComparisonRow({
+  row,
+  index,
+}: {
+  row: (typeof COMPARISON_TABLE)[number];
+  index: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const hasDetails = !!row.details;
+
+  return (
+    <>
+      <tr
+        className={`${
+          index % 2 === 0 ? "bg-zinc-950/50" : "bg-zinc-900/30"
+        } ${hasDetails ? "cursor-pointer hover:bg-zinc-800/50 transition-colors" : ""}`}
+        onClick={() => hasDetails && setExpanded(!expanded)}
+      >
+        <td className="px-4 py-2 text-xs font-medium text-zinc-300">
+          {row.concept}
+        </td>
+        <td className="px-4 py-2 text-xs font-mono text-zinc-400">
+          {row.claudeCode}
+        </td>
+        <td className="px-4 py-2 text-xs font-mono text-zinc-400">
+          {row.codex}
+        </td>
+        <td className="px-2 py-2">
+          {hasDetails && (
+            <ChevronDown
+              className={`h-3.5 w-3.5 text-zinc-500 transition-transform duration-200 ${
+                expanded ? "rotate-180" : ""
+              }`}
+            />
+          )}
+        </td>
+      </tr>
+      {hasDetails && expanded && (
+        <tr
+          className={index % 2 === 0 ? "bg-zinc-950/50" : "bg-zinc-900/30"}
+        >
+          <td colSpan={4} className="px-4 pb-3 pt-0">
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              {row.details}
+            </p>
+          </td>
+        </tr>
+      )}
+    </>
+  );
+}
 
 export function ComparisonTable({ items }: { items: CatalogItem[] }) {
   const [sortKey, setSortKey] = useState<SortKey>("category");
@@ -38,9 +90,14 @@ export function ComparisonTable({ items }: { items: CatalogItem[] }) {
     <div className="flex flex-col gap-8">
       {/* Cross-platform reference table */}
       <div>
-        <h2 className="text-lg font-semibold mb-4">
+        <h2 className="text-lg font-semibold mb-2">
           Claude Code vs Codex — Quick Reference
         </h2>
+        <p className="text-sm text-zinc-400 mb-4">
+          Both Claude Code and Codex support skills, MCP servers, and project
+          configuration — but the file paths and commands differ. Use this table
+          to translate concepts between platforms. Click any row to learn more.
+        </p>
         <Card className="overflow-hidden bg-card border-border">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -55,26 +112,12 @@ export function ComparisonTable({ items }: { items: CatalogItem[] }) {
                   <th className="px-4 py-2.5 text-left text-xs font-medium text-green-400">
                     Codex
                   </th>
+                  <th className="w-8" />
                 </tr>
               </thead>
               <tbody>
                 {COMPARISON_TABLE.map((row, i) => (
-                  <tr
-                    key={row.concept}
-                    className={
-                      i % 2 === 0 ? "bg-zinc-950/50" : "bg-zinc-900/30"
-                    }
-                  >
-                    <td className="px-4 py-2 text-xs font-medium text-zinc-300">
-                      {row.concept}
-                    </td>
-                    <td className="px-4 py-2 text-xs font-mono text-zinc-400">
-                      {row.claudeCode}
-                    </td>
-                    <td className="px-4 py-2 text-xs font-mono text-zinc-400">
-                      {row.codex}
-                    </td>
-                  </tr>
+                  <ComparisonRow key={row.concept} row={row} index={i} />
                 ))}
               </tbody>
             </table>
