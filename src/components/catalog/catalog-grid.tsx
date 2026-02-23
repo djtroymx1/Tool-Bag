@@ -8,10 +8,16 @@ export function CatalogGrid({
   items,
   onClearFilters,
   activePlatform,
+  onStackFilter,
+  onPriorityFilter,
+  onSourceFilter,
 }: {
   items: CatalogItem[];
   onClearFilters: () => void;
   activePlatform: "claude-code" | "codex" | "both";
+  onStackFilter?: (stack: string) => void;
+  onPriorityFilter?: (priority: string) => void;
+  onSourceFilter?: (source: string) => void;
 }) {
   const { isSelected, toggle } = useSelectionContext();
 
@@ -43,6 +49,9 @@ export function CatalogGrid({
           isSelected={isSelected(item.id)}
           onToggle={() => toggle(item.id)}
           activePlatform={activePlatform}
+          onStackFilter={onStackFilter}
+          onPriorityFilter={onPriorityFilter}
+          onSourceFilter={onSourceFilter}
         />
       ))}
     </div>

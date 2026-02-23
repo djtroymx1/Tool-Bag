@@ -14,6 +14,7 @@ export const catalogSearchParams = {
   q: parseAsString.withDefault(""),
   priority: parseAsString.withDefault(""),
   source: parseAsString.withDefault(""),
+  stack: parseAsString.withDefault(""),
 };
 
 export const searchParamsCache = createSearchParamsCache(catalogSearchParams);
