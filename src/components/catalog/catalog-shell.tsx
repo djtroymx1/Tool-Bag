@@ -10,6 +10,7 @@ import { FilterBar } from "./filter-bar";
 import { CatalogGrid } from "./catalog-grid";
 import { CatalogList } from "./catalog-list";
 import { ViewToggle, type ViewMode } from "./view-toggle";
+import { ToolDrawer } from "./tool-drawer";
 import type { CatalogItem } from "@/types/catalog";
 
 const VIEW_STORAGE_KEY = "toolbag-view-mode";
@@ -54,6 +55,13 @@ export function CatalogShell({
     shallow: false,
   });
   const { mode: viewMode, setViewMode } = useViewMode();
+  const [drawerItem, setDrawerItem] = useState<CatalogItem | null>(null);
+
+  function handleViewDetails(item: CatalogItem) {
+    // On mobile (< 1024px), don't open drawer — card expands inline instead
+    if (typeof window !== "undefined" && window.innerWidth < 1024) return;
+    setDrawerItem(item);
+  }
 
   const hasFilters =
     filters.platform !== "both" ||
@@ -141,6 +149,7 @@ export function CatalogShell({
           onStackFilter={(stack) => setFilters({ stack })}
           onPriorityFilter={(priority) => setFilters({ priority })}
           onSourceFilter={(source) => setFilters({ source })}
+          onViewDetails={handleViewDetails}
         />
       ) : (
         <CatalogGrid
@@ -150,8 +159,17 @@ export function CatalogShell({
           onStackFilter={(stack) => setFilters({ stack })}
           onPriorityFilter={(priority) => setFilters({ priority })}
           onSourceFilter={(source) => setFilters({ source })}
+          onViewDetails={handleViewDetails}
         />
       )}
+
+      {/* Detail drawer (desktop only) */}
+      <ToolDrawer
+        item={drawerItem}
+        open={!!drawerItem}
+        onOpenChange={(open) => !open && setDrawerItem(null)}
+        activePlatform={filters.platform}
+      />
     </div>
   );
 }

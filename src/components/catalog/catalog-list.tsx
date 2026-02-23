@@ -25,6 +25,7 @@ function ListRow({
   onStackFilter: _onStackFilter,
   onPriorityFilter,
   onSourceFilter,
+  onViewDetails,
 }: {
   item: CatalogItem;
   isSelected: boolean;
@@ -33,6 +34,7 @@ function ListRow({
   onStackFilter?: (stack: string) => void;
   onPriorityFilter?: (priority: string) => void;
   onSourceFilter?: (source: string) => void;
+  onViewDetails?: () => void;
 }) {
   void _onStackFilter; // Reserved for future stack tag display in list rows
   const [expanded, setExpanded] = useState(false);
@@ -180,17 +182,29 @@ function ListRow({
                 </pre>
               </div>
             )}
-            {/* View Source link */}
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition-colors self-start"
-              data-testid="catalog-list-view-source"
-            >
-              <ExternalLink className="h-3 w-3" />
-              View Source
-            </a>
+            {/* Action links */}
+            <div className="flex items-center gap-2">
+              {onViewDetails && (
+                <button
+                  type="button"
+                  onClick={onViewDetails}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md bg-emerald-600/20 border border-emerald-600/30 text-emerald-400 hover:bg-emerald-600/30 transition-colors"
+                  data-testid="catalog-list-details"
+                >
+                  Details
+                </button>
+              )}
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition-colors"
+                data-testid="catalog-list-view-source"
+              >
+                <ExternalLink className="h-3 w-3" />
+                View Source
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -205,6 +219,7 @@ export function CatalogList({
   onStackFilter,
   onPriorityFilter,
   onSourceFilter,
+  onViewDetails,
 }: {
   items: CatalogItem[];
   onClearFilters: () => void;
@@ -212,6 +227,7 @@ export function CatalogList({
   onStackFilter?: (stack: string) => void;
   onPriorityFilter?: (priority: string) => void;
   onSourceFilter?: (source: string) => void;
+  onViewDetails?: (item: CatalogItem) => void;
 }) {
   const { isSelected, toggle } = useSelectionContext();
 
@@ -249,6 +265,7 @@ export function CatalogList({
           onStackFilter={onStackFilter}
           onPriorityFilter={onPriorityFilter}
           onSourceFilter={onSourceFilter}
+          onViewDetails={onViewDetails ? () => onViewDetails(item) : undefined}
         />
       ))}
     </div>

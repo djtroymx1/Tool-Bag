@@ -11,6 +11,7 @@ export function CatalogGrid({
   onStackFilter,
   onPriorityFilter,
   onSourceFilter,
+  onViewDetails,
 }: {
   items: CatalogItem[];
   onClearFilters: () => void;
@@ -18,6 +19,7 @@ export function CatalogGrid({
   onStackFilter?: (stack: string) => void;
   onPriorityFilter?: (priority: string) => void;
   onSourceFilter?: (source: string) => void;
+  onViewDetails?: (item: CatalogItem) => void;
 }) {
   const { isSelected, toggle } = useSelectionContext();
 
@@ -52,6 +54,7 @@ export function CatalogGrid({
           onStackFilter={onStackFilter}
           onPriorityFilter={onPriorityFilter}
           onSourceFilter={onSourceFilter}
+          onViewDetails={onViewDetails ? () => onViewDetails(item) : undefined}
         />
       ))}
     </div>
