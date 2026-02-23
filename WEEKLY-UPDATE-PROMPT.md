@@ -5,7 +5,7 @@
 - **Purpose**: Research prompt and execution instructions for keeping the catalog current
 - **Frequency**: Weekly (or as needed when notable tools launch)
 - **Compatible With**: Claude (deep research), Gemini (real-time search), ChatGPT (browsing)
-- **Last Updated**: February 2026
+- **Last Updated**: February 23, 2026
 
 ---
 
@@ -114,19 +114,19 @@ Search these specific areas. Be thorough. Check GitHub trending, recent releases
 
 Here are the slugs of every item currently in my catalog. Do NOT suggest adding something I already have unless it needs an update:
 
-Skills & Plugins: superpowers, anthropic-official-skills, openai-official-skills, oh-my-claudecode, everything-claude-code, composio-codex-skills, codex-settings, openskills, agent-skills-cli, levnikolaevich-skills, tdd-guard, wshobson-agents, tob-security
+Skills & Plugins: agent-skills-cli, anthropic-official-skills, bitflight-skills, cc-plugins-plus-skills, codex-settings, composio-codex-skills, everything-claude-code, levnikolaevich-skills, oh-my-claudecode, openai-official-skills, openskills, superpowers, tdd-guard, tob-security, wshobson-agents
 
-MCP Servers: supabase-mcp, firebase-mcp, github-mcp, playwright-mcp, eslint-mcp, stripe-mcp, vercel-mcp, sentry-mcp, linear-mcp, tailwind-mcp, nextjs-mcp, dart-flutter-mcp, memory-mcp, vitest-mcp, nrt-assistant, figma-mcp, docker-mcp
+MCP Servers: dart-flutter-mcp, docker-mcp, eslint-mcp, figma-mcp, firebase-mcp, github-mcp, google-bigquery-mcp, google-maps-mcp, linear-mcp, memory-mcp, nextjs-mcp, nrt-assistant, playwright-mcp, sentry-mcp, stripe-mcp, supabase-mcp, tailwind-mcp, vercel-mcp, vitest-mcp
 
-Multi-Agent: agent-teams, subagents, code-review-plugin, claude-flow, claude-squad, swarm-patterns
+Multi-Agent: agent-teams, claude-flow, claude-squad, code-review-plugin, subagents, swarm-patterns
 
-Testing & QA: pgtap, tdd-pattern, quinn-qa
+Testing & QA: claude-code-agents-qa, pgtap, quinn-qa, tdd-pattern
 
-Workflow & CI/CD: gh-actions, hooks, headless, auto-format-hook, claude-md-templates
+Workflow & CI/CD: auto-format-hook, claude-md-templates, gh-actions, headless, hooks
 
-Curated Lists: awesome-claude-code, awesome-agent-skills, awesome-mcp-servers, mcp-registry, skills-sh, agentskill-sh, skillmatic-awesome
+Curated Lists: agentskill-sh, awesome-agent-skills, awesome-claude-code, awesome-claude-subagents, awesome-mcp-servers, mcp-registry, skillmatic-awesome, skills-sh
 
-Official: anthropics-claude-code, openai-codex-cli, agentskills-spec, best-practices-blog
+Official: agentskills-spec, anthropics-claude-code, best-practices-blog, openai-codex-cli
 
 **IMPORTANT**: After each weekly update, I will update this slug list in my prompt. If you are reading this and the date is more than 2 weeks past the "Last Updated" date at the top of this document, remind me to update the slug list.
 
